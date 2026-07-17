@@ -1,0 +1,139 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Noto Sans KR", sans-serif;
+    background:#f5f6f8;
+    color:#333;
+    height:100vh;
+    overflow:hidden;   /* 스크롤 제거 */
+}
+
+/* Header */
+header{
+    height:80px;
+    width:100%;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo{
+    font-size:34px;
+    font-weight:600x;
+    color:#183153;
+    letter-spacing:2px;
+}
+
+.logo span{
+    color:#b89252;
+}
+
+/* Hero */
+.hero{
+    height:calc(90vh - 80px - 280px);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    background:linear-gradient(135deg,#17365d,#274f7d);
+    color:white;
+}
+
+.hero h1{
+    font-size:60px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    line-height:1.8;
+    color:#e8e8e8;
+}
+
+/* Service */
+.services{
+
+    height:280px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:30px;
+
+    padding:20px 40px;
+
+    background:#f5f6f8;
+}
+
+.card{
+
+    width:420px;
+    height:190px;
+
+    background:#fff;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card h2{
+
+    color:#17365d;
+
+    margin-bottom:1px;
+
+}
+
+.card p{
+
+    color:#666;
+
+    margin-bottom:20px;
+
+}
+
+.btn{
+
+    display:inline-block;
+
+    background:#17365d;
+
+    color:#fff;
+
+    padding:10px 30px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.btn:hover{
+
+    background:#b89252;
+
+}

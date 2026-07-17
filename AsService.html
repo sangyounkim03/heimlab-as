@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>욕실 제품 A/S 접수</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #f8fafc);
+    color:#111;
+}
+
+/* 컨테이너 */
+.container{
+    width:720px;
+    max-width:92%;
+    margin:60px auto;
+    padding:40px;
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+
+    border:1px solid rgba(255,255,255,0.4);
+
+    border-radius:20px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+/* 타이틀 */
+h1{
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:35px;
+}
+
+/* 폼 */
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+    color:#333;
+}
+
+/* 입력 */
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px 16px;
+
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,0.08);
+
+    font-size:15px;
+
+    background:#fff;
+
+    outline:none;
+
+    transition:0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#3b82f6;
+    box-shadow:0 0 0 4px rgba(59,130,246,0.15);
+}
+
+textarea{
+    min-height:140px;
+    resize:vertical;
+}
+
+/* 버튼 기본 */
+.button-link{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    width:100%;
+    min-height:62px;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    background:#fff;
+    border:2px solid #ddd;
+
+    color:#111;
+    font-size:15px;
+    font-weight:800;
+    text-decoration:none;
+
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
+    transition:0.25s ease;
+}
+
+
+.button-link:hover{
+    transform:translateY(-4px);
+    color:#fff;
+}
+
+/* 브랜드 색상 */
+.american{border-color:#1565C0;}
+.american:hover{background:#1565C0;}
+
+.thezone{border-color:#F57C00;}
+.thezone:hover{background:#F57C00;}
+
+.fontana{border-color:#43A047;}
+.fontana:hover{background:#43A047;}
+
+.etterno{border-color:#00ACC1;}
+.etterno:hover{background:#00ACC1;}
+
+.ridel{border-color:#7CB342;}
+.ridel:hover{background:#7CB342;}
+
+.himpel{border-color:#3949AB;}
+.himpel:hover{background:#3949AB;}
+
+.versace{border-color:#8E24AA;}
+.versace:hover{background:#8E24AA;}
+
+.hwashin{border-color:#6D4C41;}
+.hwashin:hover{background:#6D4C41;}
+
+.daelim{border-color:#00897B;}
+.daelim:hover{background:#00897B;}
+
+.hidden{border-color:#455A64;}
+.hidden:hover{background:#455A64;}
+
+.kabi{border-color:#5E35B1;}
+.kabi:hover{background:#5E35B1;}
+
+.spider{border-color:#D32F2F;}
+.spider:hover{background:#D32F2F;}
+
+.domus{border-color:#546E7A;}
+.domus:hover{background:#546E7A;}
+
+.trend{border-color:#E53935;}
+.trend:hover{background:#E53935;}
+
+
+/* 버튼 그리드 */
+.kakao-select{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-top:25px;
+}
+
+/* 모바일 */
+@media (max-width:600px){
+    .kakao-select{
+        grid-template-columns:1fr;
+    }
+}
+
+
+.button-link:hover{
+    transform:translateY(-3px);
+    opacity:.9;
+}
+
+/* 제출 버튼 */
+button{
+    margin-top:10px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color:white;
+    box-shadow:0 10px 20px rgba(37,99,235,0.25);
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+/* 이메일 / SMS */
+.button-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.button-group .button-link{
+    background:#f3f4f6;
+    color:#111;
+    border:1px solid rgba(0,0,0,0.05);
+}
+
+.button-group .button-link:hover{
+    background:#e5e7eb;
+    transform:translateY(-2px);
+}
+
+/* 안내 */
+.contact-note{
+    font-size:13px;
+    color:#666;
+    margin-top:6px;
+}
+
+/* 카카오 선택 */
+.kakao-select{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:14px;
+}
+
+/* 아메리칸 */
+.kakao-select{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.button-link{
+    .american{background:#1565C0;}
+.thezone{background:#F57C00;}
+.fontana{background:#43A047;}
+.etterno{background:#00ACC1;}
+.ridel{background:#7CB342;}
+.himpel{background:#3949AB;}
+
+.versace{background:#8E24AA;}
+.hwashin{background:#6D4C41;}
+.daelim{background:#00897B;}
+.hidden{background:#455A64;}
+.kabi{background:#5E35B1;}
+.spider{background:#D32F2F;}
+.domus{background:#546E7A;}
+.trend{background:#E53935;}
+}
+
+.button-link:hover{
+    transform:translateY(-3px);
+    filter:brightness(.9);
+}
+
+
+/* 모바일 */
+@media (max-width:600px){
+    .button-group{
+        grid-template-columns:1fr;
+    }
+
+    .kakao-select{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        padding:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🛠 욕실 제품 A/S 접수</h1>
+        <div class="contact-section">
+
+    <p class="contact-note">
+        아래 브랜드를 선택하시면 해당 A/S 상담 채널로 연결됩니다.
+    </p>
+
+    <div class="kakao-select">
+
+    <a class="button-link american" href="https://standard-as.co.kr/main/as_afterservice/write.do" target="_blank">아메리칸 스탠다드</a>
+
+    <a class="button-link thezone" href="https://piloto.co.kr/shop/cs/as_receipt/as_receipt_index" target="_blank">더죤(필로토)</a>
+
+    <a class="button-link fontana" href="https://pf.kakao.com/_xbsqFn" target="_blank">폰타나</a>
+
+    <a class="button-link etterno" href="https://pf.kakao.com/_bMtNn" target="_blank">에떼르노</a>
+
+    <a class="button-link ridel" href="https://liddel.co.kr/board/as-%EB%AC%B8%EC%9D%98/6/" target="_blank">리델</a>
+
+    <a class="button-link himpel" href="https://himpel.com/kr/asApplication?_gl=1*1r1qj40*_gcl_au*NTcyNDI4ODg3LjE3ODMyMzk4Mjg.*_ga*MTU5NTY3ODAyNS4xNzgzMjM5ODI4*_ga_3QW8ZBQX44*czE3ODMyMzk4MjgkbzEkZzAkdDE3ODMyMzk4MjgkajYwJGwwJGgxNTI4MTQwMDU." target="_blank">힘펠</a>
+
+    <a class="button-link versace" href="#">베르사츠</a>
+
+    <a class="button-link hwashin" href="#">화신세라믹</a>
+
+    <a class="button-link daelim" href="#">대림바스</a>
+
+    <a class="button-link hidden" href="#">히든바스</a>
+
+    <a class="button-link kabi" href="#">카비원</a>
+
+    <a class="button-link spider" href="#">스파이더</a>
+
+    <a class="button-link domus" href="#">도무스</a>
+
+    <a class="button-link trend" href="https://pf.kakao.com/_CxiAxmxj" target="_blank">트렌드주식회사</a>
+</div>
+
+    </div>
+
+</div>
+    </div>
+
+</div>
+
+</div>
+
+</body>
+</html>
