@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A/S 관리자 | DNB PARTNER</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            width: 100%;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: #ffffff;
+            border-bottom: 1px solid #dddddd;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            color: #082d5c;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #b98740;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-email {
+            color: #666666;
+            font-size: 13px;
+        }
+
+        .logout-btn {
+            padding: 10px 18px;
+
+            border: none;
+            border-radius: 22px;
+
+            background: #c62828;
+            color: #ffffff;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #a91f1f;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1500px;
+
+            margin: 35px auto;
+            padding: 30px;
+
+            background: #ffffff;
+            border-radius: 15px;
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #082d5c;
+        }
+
+        .description {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #666666;
+            line-height: 1.6;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            padding: 20px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+        .summary-card strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #555555;
+            font-size: 13px;
+        }
+
+        .summary-card span {
+            color: #082d5c;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+        .search-area input {
+            flex: 1;
+
+            padding: 12px 14px;
+
+            border: 1px solid #cccccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-area input:focus {
+            border-color: #123d70;
+
+            box-shadow:
+                0 0 0 3px rgba(18, 61, 112, 0.12);
+        }
+
+        .search-area button {
+            padding: 12px 24px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #123d70;
+            color: #ffffff;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-area button:hover {
+            background: #082d5c;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1250px;
+
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th {
+            padding: 13px 10px;
+
+            background: #123d70;
+            color: #ffffff;
+
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px 10px;
+
+            border-bottom: 1px solid #dddddd;
+
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .content-cell {
+            max-width: 250px;
+
+            white-space: normal;
+            word-break: break-word;
+
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .address-cell {
+            max-width: 220px;
+
+            white-space: normal;
+            word-break: break-word;
+
+            text-align: left;
+        }
+
+        .status-select {
+            padding: 8px 9px;
+
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+
+            background: #ffffff;
+
+            font-weight: bold;
+        }
+
+        .save-btn {
+            padding: 8px 13px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #123d70;
+            color: #ffffff;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #082d5c;
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            padding: 25px;
+
+            color: #666666;
+            text-align: center;
+        }
+
+        .message {
+            display: none;
+
+            padding: 25px;
+
+            color: #777777;
+            text-align: center;
+        }
+
+        .error-box {
+            display: none;
+
+            margin-bottom: 20px;
+            padding: 15px;
+
+            background: #fff1f1;
+            border: 1px solid #ffc4c4;
+            border-radius: 8px;
+
+            color: #c62828;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .admin-email {
+                display: none;
+            }
+
+            .container {
+                width: 96%;
+                margin: 20px auto;
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .search-area {
+                flex-direction: column;
+            }
+
+            .search-area button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        DNB <span>PARTNER</span>
+    </div>
+
+    <div class="header-right">
+
+        <span
+            class="admin-email"
+            id="adminEmail"
+        ></span>
+
+        <button
+            type="button"
+            id="logoutButton"
+            class="logout-btn"
+        >
+            로그아웃
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <h1>A/S 관리자 현황판</h1>
+
+    <p class="description">
+        접수된 A/S 신청 내역을 확인하고 처리 상태를 변경할 수 있습니다.
+    </p>
+
+
+    <div
+        id="errorBox"
+        class="error-box"
+    ></div>
+
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <strong>전체 접수</strong>
+            <span id="totalCount">0</span>
+        </div>
+
+        <div class="summary-card">
+            <strong>접수 완료</strong>
+            <span id="receivedCount">0</span>
+        </div>
+
+        <div class="summary-card">
+            <strong>처리 중</strong>
+            <span id="workingCount">0</span>
+        </div>
+
+        <div class="summary-card">
+            <strong>처리 완료</strong>
+            <span id="completeCount">0</span>
+        </div>
+
+    </section>
+
+
+    <div class="search-area">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="접수번호, 고객명, 연락처, 브랜드, 제품명 검색"
+            autocomplete="off"
+        >
+
+        <button
+            type="button"
+            id="searchButton"
+        >
+            검색
+        </button>
+
+    </div>
+
+
+    <p
+        class="loading"
+        id="loading"
+    >
+        A/S 신청 내역을 불러오는 중입니다...
+    </p>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>접수번호</th>
+                    <th>고객명</th>
+                    <th>연락처</th>
+                    <th>브랜드</th>
+                    <th>제품</th>
+                    <th>주소</th>
+                    <th>A/S 내용</th>
+                    <th>접수일</th>
+                    <th>처리상태</th>
+                    <th>저장</th>
+                </tr>
+            </thead>
+
+            <tbody id="adminTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <p
+        id="message"
+        class="message"
+    >
+        A/S 신청 내역이 없습니다.
+    </p>
+
+</main>
+
+
+<script type="module">
+
+    import { db } from "./firebase-config.js";
+
+
+    import {
+        getApp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+    import {
+        collection,
+        getDocs,
+        doc,
+        writeBatch,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+    const ADMIN_EMAIL =
+        "sangyoun0301@naver.com";
+
+
+    const app =
+        getApp();
+
+    const auth =
+        getAuth(app);
+
+
+    const adminTable =
+        document.getElementById("adminTable");
+
+    const loading =
+        document.getElementById("loading");
+
+    const message =
+        document.getElementById("message");
+
+    const errorBox =
+        document.getElementById("errorBox");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const adminEmail =
+        document.getElementById("adminEmail");
+
+
+    const totalCount =
+        document.getElementById("totalCount");
+
+    const receivedCount =
+        document.getElementById("receivedCount");
+
+    const workingCount =
+        document.getElementById("workingCount");
+
+    const completeCount =
+        document.getElementById("completeCount");
+
+
+    let applications = [];
+
+
+    /*
+        관리자 로그인 확인
+    */
+    onAuthStateChanged(
+        auth,
+        async function (user) {
+
+            if (!user) {
+
+                window.location.replace(
+                    "index.html"
+                );
+
+                return;
+            }
+
+
+            if (
+                user.email !== ADMIN_EMAIL
+            ) {
+
+                alert(
+                    "관리자 권한이 없는 계정입니다."
+                );
+
+                await signOut(auth);
+
+                window.location.replace(
+                    "index.html"
+                );
+
+                return;
+            }
+
+
+            adminEmail.textContent =
+                user.email;
+
+
+            await loadApplications();
+        }
+    );
+
+
+    /*
+        Firestore에서 관리자용 A/S 데이터 불러오기
+    */
+    async function loadApplications() {
+
+        try {
+
+            loading.style.display =
+                "block";
+
+            message.style.display =
+                "none";
+
+            errorBox.style.display =
+                "none";
+
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "asApplications"
+                    )
+                );
+
+
+            applications = [];
+
+
+            snapshot.forEach(
+                function (documentSnapshot) {
+
+                    applications.push({
+                        id:
+                            documentSnapshot.id,
+
+                        ...documentSnapshot.data()
+                    });
+
+                }
+            );
+
+
+            applications.sort(
+                function (a, b) {
+
+                    const timeA =
+                        a.createdAt?.seconds || 0;
+
+                    const timeB =
+                        b.createdAt?.seconds || 0;
+
+                    return (
+                        timeB - timeA
+                    );
+                }
+            );
+
+
+            loading.style.display =
+                "none";
+
+
+            updateSummary();
+
+            renderApplications();
+
+
+        } catch (error) {
+
+            console.error(
+                "A/S 데이터 로딩 오류:",
+                error
+            );
+
+
+            loading.style.display =
+                "none";
+
+
+            errorBox.style.display =
+                "block";
+
+
+            errorBox.textContent =
+                "A/S 데이터를 불러오지 못했습니다. Firestore 권한 설정을 확인해주세요.";
+        }
+    }
+
+
+    /*
+        상단 접수 현황 숫자
+    */
+    function updateSummary() {
+
+        totalCount.textContent =
+            applications.length;
+
+
+        receivedCount.textContent =
+            applications.filter(
+                function (item) {
+
+                    return (
+                        item.status ===
+                        "접수 완료"
+                    );
+                }
+            ).length;
+
+
+        workingCount.textContent =
+            applications.filter(
+                function (item) {
+
+                    return (
+                        item.status ===
+                        "처리 중"
+                    );
+                }
+            ).length;
+
+
+        completeCount.textContent =
+            applications.filter(
+                function (item) {
+
+                    return (
+                        item.status ===
+                        "처리 완료"
+                    );
+                }
+            ).length;
+    }
+
+
+    /*
+        날짜 표시
+    */
+    function formatDate(timestamp) {
+
+        if (!timestamp) {
+            return "-";
+        }
+
+
+        try {
+
+            const date =
+                timestamp.toDate();
+
+
+            return date.toLocaleString(
+                "ko-KR",
+                {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+
+        } catch (error) {
+
+            return "-";
+        }
+    }
+
+
+    /*
+        안전한 셀 생성
+    */
+    function createCell(
+        value,
+        className = ""
+    ) {
+
+        const td =
+            document.createElement("td");
+
+
+        td.textContent =
+            value || "-";
+
+
+        if (className) {
+
+            td.className =
+                className;
+        }
+
+
+        return td;
+    }
+
+
+    /*
+        관리자 목록 출력
+    */
+    function renderApplications(
+        keyword = ""
+    ) {
+
+        adminTable.innerHTML =
+            "";
+
+
+        const normalizedKeyword =
+            keyword
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            applications.filter(
+                function (item) {
+
+                    const searchableText = [
+                        item.receiptNumber || "",
+                        item.customerName || "",
+                        item.phone || "",
+                        item.brand || "",
+                        item.product || "",
+                        item.address || "",
+                        item.content || "",
+                        item.status || ""
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    return (
+                        normalizedKeyword === "" ||
+                        searchableText.includes(
+                            normalizedKeyword
+                        )
+                    );
+                }
+            );
+
+
+        if (
+            filtered.length === 0
+        ) {
+
+            message.style.display =
+                "block";
+
+            return;
+        }
+
+
+        message.style.display =
+            "none";
+
+
+        filtered.forEach(
+            function (item) {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.appendChild(
+                    createCell(
+                        item.receiptNumber
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.customerName
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.phone
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.brand
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.product
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.address,
+                        "address-cell"
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        item.content,
+                        "content-cell"
+                    )
+                );
+
+
+                row.appendChild(
+                    createCell(
+                        formatDate(
+                            item.createdAt
+                        )
+                    )
+                );
+
+
+                /*
+                    상태 선택
+                */
+                const statusTd =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                const select =
+                    document.createElement(
+                        "select"
+                    );
+
+
+                select.className =
+                    "status-select";
+
+
+                const statuses = [
+                    "접수 완료",
+                    "처리 중",
+                    "처리 완료",
+                    "취소"
+                ];
+
+
+                statuses.forEach(
+                    function (status) {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            status;
+
+
+                        option.textContent =
+                            status;
+
+
+                        if (
+                            item.status ===
+                            status
+                        ) {
+
+                            option.selected =
+                                true;
+                        }
+
+
+                        select.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+                statusTd.appendChild(
+                    select
+                );
+
+
+                row.appendChild(
+                    statusTd
+                );
+
+
+                /*
+                    저장 버튼
+                */
+                const saveTd =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                const saveButton =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                saveButton.type =
+                    "button";
+
+
+                saveButton.className =
+                    "save-btn";
+
+
+                saveButton.textContent =
+                    "저장";
+
+
+                saveButton.addEventListener(
+                    "click",
+                    async function () {
+
+                        await saveStatus(
+                            item,
+                            select,
+                            saveButton
+                        );
+                    }
+                );
+
+
+                saveTd.appendChild(
+                    saveButton
+                );
+
+
+                row.appendChild(
+                    saveTd
+                );
+
+
+                adminTable.appendChild(
+                    row
+                );
+
+            }
+        );
+    }
+
+
+    /*
+        상태 저장
+        관리자용 + 고객용 현황 데이터를
+        한 번에 같이 업데이트
+    */
+    async function saveStatus(
+        item,
+        select,
+        button
+    ) {
+
+        const newStatus =
+            select.value;
+
+
+        try {
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "저장 중...";
+
+
+            const batch =
+                writeBatch(db);
+
+
+            /*
+                관리자용 데이터
+            */
+            const privateRef =
+                doc(
+                    db,
+                    "asApplications",
+                    item.id
+                );
+
+
+            batch.update(
+                privateRef,
+                {
+                    status:
+                        newStatus,
+
+                    updatedAt:
+                        serverTimestamp()
+                }
+            );
+
+
+            /*
+                고객용 상태 데이터
+            */
+            const publicRef =
+                doc(
+                    db,
+                    "asPublicStatus",
+                    item.receiptNumber
+                );
+
+
+            batch.update(
+                publicRef,
+                {
+                    status:
+                        newStatus,
+
+                    updatedAt:
+                        serverTimestamp()
+                }
+            );
+
+
+            /*
+                두 컬렉션 상태를 동시에 변경
+            */
+            await batch.commit();
+
+
+            item.status =
+                newStatus;
+
+
+            updateSummary();
+
+
+            button.textContent =
+                "저장 완료";
+
+
+            setTimeout(
+                function () {
+
+                    button.textContent =
+                        "저장";
+
+                    button.disabled =
+                        false;
+
+                },
+                1000
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "A/S 상태 저장 오류:",
+                error
+            );
+
+
+            alert(
+                "처리 상태 저장에 실패했습니다."
+            );
+
+
+            button.textContent =
+                "저장";
+
+
+            button.disabled =
+                false;
+        }
+    }
+
+
+    /*
+        검색
+    */
+    function searchApplications() {
+
+        renderApplications(
+            searchInput.value
+        );
+    }
+
+
+    searchButton.addEventListener(
+        "click",
+        searchApplications
+    );
+
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                searchApplications();
+            }
+
+        }
+    );
+
+
+    /*
+        검색어를 지우면 전체 목록 표시
+    */
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            if (
+                searchInput
+                    .value
+                    .trim() === ""
+            ) {
+
+                renderApplications();
+            }
+
+        }
+    );
+
+
+    /*
+        로그아웃
+    */
+    logoutButton.addEventListener(
+        "click",
+        async function () {
+
+            try {
+
+                await signOut(auth);
+
+
+                window.location.replace(
+                    "index.html"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "로그아웃 오류:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

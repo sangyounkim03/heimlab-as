@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A/S 신청 현황 | DNB PARTNER</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            padding: 25px;
+            background: white;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        header a {
+            color: #082d5c;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        header span {
+            color: #b98740;
+        }
+
+        .status-container {
+            width: 90%;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 35px;
+
+            background: white;
+            border-radius: 15px;
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #082d5c;
+            text-align: center;
+        }
+
+        .description {
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-area input {
+            flex: 1;
+            padding: 13px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-area input:focus {
+            border-color: #123d70;
+            box-shadow: 0 0 0 3px rgba(18, 61, 112, 0.12);
+        }
+
+        .search-area button {
+            padding: 13px 25px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #123d70;
+            color: white;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-area button:hover {
+            background: #082d5c;
+        }
+
+        .search-area button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result {
+            display: none;
+
+            margin-top: 30px;
+            padding: 25px;
+
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #666;
+            font-weight: bold;
+        }
+
+        .result-value {
+            color: #222;
+            font-weight: bold;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .status {
+            color: #123d70;
+            font-size: 17px;
+        }
+
+        .status.received {
+            color: #555;
+        }
+
+        .status.working {
+            color: #e58b00;
+        }
+
+        .status.complete {
+            color: #15803d;
+        }
+
+        .status.cancel {
+            color: #c62828;
+        }
+
+        .error-message {
+            display: none;
+
+            margin-top: 25px;
+            padding: 15px;
+
+            background: #fff1f1;
+            border: 1px solid #ffc4c4;
+            border-radius: 8px;
+
+            color: #c62828;
+            text-align: center;
+        }
+
+        .home-btn {
+            display: block;
+
+            width: 180px;
+            margin: 30px auto 0;
+            padding: 12px;
+
+            background: #123d70;
+            color: white;
+
+            border-radius: 25px;
+
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            background: #082d5c;
+        }
+
+        @media (max-width: 600px) {
+            .status-container {
+                margin: 25px auto;
+                padding: 25px 20px;
+            }
+
+            .search-area {
+                flex-direction: column;
+            }
+
+            .search-area button {
+                width: 100%;
+            }
+
+            .result-row {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="Home.html">
+        DNB <span>PARTNER</span>
+    </a>
+</header>
+
+<main class="status-container">
+
+    <h1>A/S 신청 현황</h1>
+
+    <p class="description">
+        A/S 접수 시 발급받은 접수번호를 입력해주세요.
+    </p>
+
+    <div class="search-area">
+
+        <input
+            type="text"
+            id="receiptInput"
+            placeholder="예: AS-20260820-123456"
+            autocomplete="off"
+        >
+
+        <button
+            type="button"
+            id="searchButton"
+        >
+            조회하기
+        </button>
+
+    </div>
+
+
+    <div
+        class="error-message"
+        id="errorMessage"
+    ></div>
+
+
+    <div
+        class="result"
+        id="resultBox"
+    >
+
+        <div class="result-row">
+            <span class="result-label">
+                접수번호
+            </span>
+
+            <span
+                class="result-value"
+                id="resultReceipt"
+            ></span>
+        </div>
+
+
+        <div class="result-row">
+            <span class="result-label">
+                브랜드
+            </span>
+
+            <span
+                class="result-value"
+                id="resultBrand"
+            ></span>
+        </div>
+
+
+        <div class="result-row">
+            <span class="result-label">
+                제품
+            </span>
+
+            <span
+                class="result-value"
+                id="resultProduct"
+            ></span>
+        </div>
+
+
+        <div class="result-row">
+            <span class="result-label">
+                접수일
+            </span>
+
+            <span
+                class="result-value"
+                id="resultDate"
+            ></span>
+        </div>
+
+
+        <div class="result-row">
+            <span class="result-label">
+                현재 상태
+            </span>
+
+            <span
+                class="result-value status"
+                id="resultStatus"
+            ></span>
+        </div>
+
+    </div>
+
+
+    <a
+        href="Home.html"
+        class="home-btn"
+    >
+        메인으로 돌아가기
+    </a>
+
+</main>
+
+
+<script type="module">
+
+    import { db } from "./firebase-config.js";
+
+    import {
+        getApp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+    import {
+        doc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+    const app = getApp();
+    const auth = getAuth(app);
+
+
+    const receiptInput =
+        document.getElementById("receiptInput");
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const resultBox =
+        document.getElementById("resultBox");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const resultReceipt =
+        document.getElementById("resultReceipt");
+
+    const resultBrand =
+        document.getElementById("resultBrand");
+
+    const resultProduct =
+        document.getElementById("resultProduct");
+
+    const resultDate =
+        document.getElementById("resultDate");
+
+    const resultStatus =
+        document.getElementById("resultStatus");
+
+
+    /*
+        로그인 확인
+    */
+    onAuthStateChanged(
+        auth,
+        function (user) {
+
+            if (!user) {
+
+                window.location.replace(
+                    "index.html"
+                );
+            }
+
+        }
+    );
+
+
+    /*
+        날짜 표시
+    */
+    function formatDate(timestamp) {
+
+        if (!timestamp) {
+            return "-";
+        }
+
+        try {
+
+            return timestamp
+                .toDate()
+                .toLocaleDateString(
+                    "ko-KR",
+                    {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit"
+                    }
+                );
+
+        } catch (error) {
+
+            return "-";
+        }
+    }
+
+
+    /*
+        상태별 색상 처리
+    */
+    function setStatusStyle(status) {
+
+        resultStatus.className =
+            "result-value status";
+
+
+        if (status === "접수 완료") {
+
+            resultStatus.classList.add(
+                "received"
+            );
+
+        } else if (status === "처리 중") {
+
+            resultStatus.classList.add(
+                "working"
+            );
+
+        } else if (status === "처리 완료") {
+
+            resultStatus.classList.add(
+                "complete"
+            );
+
+        } else if (status === "취소") {
+
+            resultStatus.classList.add(
+                "cancel"
+            );
+        }
+    }
+
+
+    /*
+        A/S 현황 조회
+    */
+    async function searchStatus() {
+
+        const receiptNumber =
+            receiptInput
+                .value
+                .trim()
+                .toUpperCase();
+
+
+        resultBox.style.display =
+            "none";
+
+        errorMessage.style.display =
+            "none";
+
+
+        if (!receiptNumber) {
+
+            errorMessage.textContent =
+                "접수번호를 입력해주세요.";
+
+            errorMessage.style.display =
+                "block";
+
+            return;
+        }
+
+
+        try {
+
+            searchButton.disabled =
+                true;
+
+            searchButton.textContent =
+                "조회 중...";
+
+
+            const statusRef =
+                doc(
+                    db,
+                    "asPublicStatus",
+                    receiptNumber
+                );
+
+
+            const snapshot =
+                await getDoc(
+                    statusRef
+                );
+
+
+            if (!snapshot.exists()) {
+
+                errorMessage.textContent =
+                    "일치하는 A/S 접수 내역이 없습니다.";
+
+                errorMessage.style.display =
+                    "block";
+
+                return;
+            }
+
+
+            const data =
+                snapshot.data();
+
+
+            resultReceipt.textContent =
+                data.receiptNumber || "-";
+
+
+            resultBrand.textContent =
+                data.brand || "-";
+
+
+            resultProduct.textContent =
+                data.product || "-";
+
+
+            resultDate.textContent =
+                formatDate(
+                    data.createdAt
+                );
+
+
+            const status =
+                data.status || "접수 완료";
+
+
+            resultStatus.textContent =
+                status;
+
+
+            setStatusStyle(
+                status
+            );
+
+
+            resultBox.style.display =
+                "block";
+
+
+        } catch (error) {
+
+            console.error(
+                "A/S 조회 오류:",
+                error
+            );
+
+
+            errorMessage.textContent =
+                "A/S 현황 조회 중 오류가 발생했습니다.";
+
+            errorMessage.style.display =
+                "block";
+
+
+        } finally {
+
+            searchButton.disabled =
+                false;
+
+            searchButton.textContent =
+                "조회하기";
+        }
+    }
+
+
+    searchButton.addEventListener(
+        "click",
+        searchStatus
+    );
+
+
+    receiptInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                searchStatus();
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
