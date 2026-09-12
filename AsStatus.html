@@ -9,27 +9,53 @@
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
             background: #f4f6f8;
             color: #222;
         }
 
         header {
-            padding: 25px;
-            background: white;
-            border-bottom: 1px solid #ddd;
+            width: 100%;
+            padding: 22px 20px;
+
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+
             text-align: center;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.04);
         }
 
         header a {
             color: #082d5c;
-            font-size: 28px;
-            font-weight: bold;
+
+            font-size: 27px;
+            font-weight: 800;
             letter-spacing: 2px;
+
             text-decoration: none;
         }
 
@@ -38,182 +64,753 @@
         }
 
         .status-container {
-            width: 90%;
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 35px;
+            width: calc(100% - 40px);
+            max-width: 1180px;
 
-            background: white;
-            border-radius: 15px;
-
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin: 40px auto 70px;
         }
 
-        h1 {
-            margin-top: 0;
+        .page-title {
+            margin-bottom: 8px;
+
             color: #082d5c;
+
+            font-size: 30px;
+            font-weight: 800;
             text-align: center;
         }
 
         .description {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+
             color: #666;
-            line-height: 1.6;
+
+            font-size: 14px;
+            line-height: 1.7;
             text-align: center;
         }
 
-        .search-area {
-            display: flex;
-            gap: 10px;
+        /* =========================
+           상단 요약
+        ========================== */
+
+        .summary-area {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 20px;
         }
 
-        .search-area input {
-            flex: 1;
-            padding: 13px;
+        .summary-card {
+            padding: 20px;
 
-            border: 1px solid #ccc;
-            border-radius: 7px;
+            background: #fff;
 
-            font-size: 15px;
-            outline: none;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.04);
         }
 
-        .search-area input:focus {
-            border-color: #123d70;
-            box-shadow: 0 0 0 3px rgba(18, 61, 112, 0.12);
+        .summary-label {
+            margin-bottom: 7px;
+
+            color: #777;
+
+            font-size: 13px;
         }
 
-        .search-area button {
-            padding: 13px 25px;
-
-            border: none;
-            border-radius: 7px;
-
-            background: #123d70;
-            color: white;
-
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .search-area button:hover {
-            background: #082d5c;
-        }
-
-        .search-area button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .result {
-            display: none;
-
-            margin-top: 30px;
-            padding: 25px;
-
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-
-            padding: 13px 0;
-
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .result-row:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            color: #666;
-            font-weight: bold;
-        }
-
-        .result-value {
-            color: #222;
-            font-weight: bold;
-            text-align: right;
-            word-break: break-word;
-        }
-
-        .status {
+        .summary-number {
             color: #123d70;
-            font-size: 17px;
+
+            font-size: 27px;
+            font-weight: 800;
         }
 
-        .status.received {
-            color: #555;
+        .summary-card.received-card
+        .summary-number {
+            color: #123d70;
         }
 
-        .status.working {
-            color: #e58b00;
+        .summary-card.progress-card
+        .summary-number {
+            color: #c27803;
         }
 
-        .status.complete {
+        .summary-card.complete-card
+        .summary-number {
             color: #15803d;
         }
 
-        .status.cancel {
-            color: #c62828;
+        /* =========================
+           검색
+        ========================== */
+
+        .toolbar {
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+            padding: 16px;
+
+            background: #fff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.04);
         }
 
-        .error-message {
-            display: none;
+        .search-input {
+            flex: 1;
+            min-width: 0;
 
-            margin-top: 25px;
-            padding: 15px;
+            padding: 13px 14px;
 
-            background: #fff1f1;
-            border: 1px solid #ffc4c4;
-            border-radius: 8px;
+            border: 1px solid #cfd5dd;
+            border-radius: 9px;
 
-            color: #c62828;
+            font-family: inherit;
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #123d70;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(18, 61, 112, 0.10);
+        }
+
+        .toolbar button {
+            min-width: 105px;
+
+            padding: 12px 15px;
+
+            border: none;
+            border-radius: 9px;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .search-btn {
+            background: #123d70;
+            color: #fff;
+        }
+
+        .search-btn:hover {
+            background: #082d5c;
+        }
+
+        .expand-btn {
+            background: #eef4fb;
+            color: #123d70;
+        }
+
+        .collapse-btn {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        /* =========================
+           로딩 / 오류
+        ========================== */
+
+        .loading {
+            padding: 35px;
+
+            color: #666;
+
             text-align: center;
         }
+
+        .error-box {
+            display: none;
+
+            margin-bottom: 20px;
+            padding: 18px;
+
+            background: #fff1f1;
+
+            border: 1px solid #ffc4c4;
+            border-radius: 10px;
+
+            color: #b42318;
+
+            font-size: 14px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .no-result {
+            display: none;
+
+            padding: 40px 20px;
+
+            background: #fff;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+
+            color: #777;
+
+            text-align: center;
+        }
+
+        /* =========================
+           브랜드
+        ========================== */
+
+        .brand-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .brand-section {
+            overflow: hidden;
+
+            background: #fff;
+
+            border: 1px solid #dfe4ea;
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.04);
+        }
+
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            width: 100%;
+
+            padding: 19px 20px;
+
+            border: none;
+
+            background: #fff;
+            color: #222;
+
+            font-family: inherit;
+
+            cursor: pointer;
+        }
+
+        .brand-header:hover {
+            background: #f8fafc;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .arrow {
+            width: 20px;
+
+            color: #123d70;
+
+            font-size: 15px;
+            font-weight: 900;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+        .brand-section.open
+        .arrow {
+            transform: rotate(90deg);
+        }
+
+        .brand-name {
+            color: #082d5c;
+
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .brand-count {
+            min-width: 58px;
+
+            padding: 6px 10px;
+
+            background: #eef4fb;
+            color: #123d70;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .brand-content {
+            display: none;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .brand-section.open
+        .brand-content {
+            display: block;
+        }
+
+        /* =========================
+           접수건
+        ========================== */
+
+        .application-item {
+            border-bottom:
+                1px solid #edf0f3;
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
+        }
+
+        .application-summary {
+            display: grid;
+
+            grid-template-columns:
+                1.55fr
+                0.9fr
+                1fr
+                1fr
+                0.9fr;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 15px 20px;
+
+            border: none;
+
+            background: #fff;
+
+            font-family: inherit;
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+        .application-summary:hover {
+            background: #fafbfc;
+        }
+
+        .receipt-number {
+            color: #123d70;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .item-label {
+            display: none;
+        }
+
+        .item-value {
+            color: #444;
+
+            font-size: 13px;
+
+            word-break: break-word;
+        }
+
+        /* =========================
+           상태 뱃지
+        ========================== */
+
+        .status-badge {
+            display: inline-block;
+
+            width: fit-content;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status-received {
+            background: #eef4fb;
+            color: #123d70;
+        }
+
+        .status-progress {
+            background: #fff4d8;
+            color: #a15c00;
+        }
+
+        .status-complete {
+            background: #e8f7ec;
+            color: #15803d;
+        }
+
+        /* =========================
+           상세정보
+        ========================== */
+
+        .application-detail {
+            display: none;
+
+            padding: 22px;
+
+            background: #f8fafc;
+
+            border-top:
+                1px solid #edf0f3;
+        }
+
+        .application-item.open
+        .application-detail {
+            display: block;
+        }
+
+        .detail-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px 25px;
+        }
+
+        .detail-row {
+            padding: 11px 0;
+
+            border-bottom:
+                1px dashed #d7dce2;
+        }
+
+        .detail-label {
+            margin-bottom: 5px;
+
+            color: #777;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .detail-value {
+            color: #222;
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            word-break: break-word;
+        }
+
+        .detail-full {
+            grid-column:
+                1 / -1;
+        }
+
+        /* =========================
+           진행상황
+        ========================== */
+
+        .progress-area {
+            grid-column:
+                1 / -1;
+
+            margin-top: 12px;
+            padding: 22px;
+
+            background: #fff;
+
+            border: 1px solid #e1e6ec;
+            border-radius: 12px;
+        }
+
+        .progress-title {
+            margin-bottom: 20px;
+
+            color: #082d5c;
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .progress-track {
+            display: flex;
+            align-items: flex-start;
+
+            width: 100%;
+
+            margin-bottom: 22px;
+        }
+
+        .progress-step {
+            position: relative;
+
+            flex: 1;
+
+            text-align: center;
+        }
+
+        .progress-step:not(:last-child)::after {
+            content: "";
+
+            position: absolute;
+            top: 13px;
+            left: 50%;
+
+            width: 100%;
+            height: 3px;
+
+            background: #d7dde5;
+
+            z-index: 1;
+        }
+
+        .progress-step.done:not(:last-child)::after {
+            background: #123d70;
+        }
+
+        .progress-dot {
+            position: relative;
+            z-index: 2;
+
+            width: 28px;
+            height: 28px;
+
+            margin: 0 auto 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e2e6eb;
+            color: #777;
+
+            border-radius: 50%;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .progress-step.done
+        .progress-dot {
+            background: #123d70;
+            color: #fff;
+        }
+
+        .progress-step.current
+        .progress-dot {
+            box-shadow:
+                0 0 0 5px
+                rgba(18, 61, 112, 0.12);
+        }
+
+        .progress-label {
+            color: #777;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .progress-step.done
+        .progress-label {
+            color: #123d70;
+        }
+
+        /* =========================
+           상태 변경 버튼
+        ========================== */
+
+        .status-change-title {
+            margin-bottom: 10px;
+
+            color: #555;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-buttons {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        .status-button {
+            padding: 12px 10px;
+
+            border: 1px solid #d5dbe3;
+            border-radius: 9px;
+
+            background: #fff;
+            color: #555;
+
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .status-button:hover {
+            border-color: #123d70;
+        }
+
+        .status-button.active-received {
+            background: #123d70;
+            border-color: #123d70;
+            color: #fff;
+        }
+
+        .status-button.active-progress {
+            background: #d99010;
+            border-color: #d99010;
+            color: #fff;
+        }
+
+        .status-button.active-complete {
+            background: #15803d;
+            border-color: #15803d;
+            color: #fff;
+        }
+
+        .status-button:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .updated-text {
+            margin-top: 12px;
+
+            color: #888;
+
+            font-size: 11px;
+            text-align: right;
+        }
+
+        /* =========================
+           하단
+        ========================== */
 
         .home-btn {
             display: block;
 
-            width: 180px;
+            width: 190px;
+
             margin: 30px auto 0;
             padding: 12px;
 
             background: #123d70;
-            color: white;
+            color: #fff;
 
             border-radius: 25px;
 
             text-align: center;
             text-decoration: none;
+            font-weight: 700;
         }
 
         .home-btn:hover {
             background: #082d5c;
         }
 
-        @media (max-width: 600px) {
+        /* =========================
+           반응형
+        ========================== */
+
+        @media (max-width: 800px) {
+
             .status-container {
-                margin: 25px auto;
-                padding: 25px 20px;
+                width: calc(100% - 20px);
+
+                margin:
+                    25px auto 50px;
             }
 
-            .search-area {
+            .summary-area {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .toolbar {
                 flex-direction: column;
             }
 
-            .search-area button {
+            .toolbar button {
                 width: 100%;
             }
 
-            .result-row {
-                align-items: flex-start;
+            .application-summary {
+                grid-template-columns: 1fr;
+
+                gap: 7px;
+
+                padding: 16px;
             }
+
+            .application-summary > div {
+                display: flex;
+
+                gap: 8px;
+            }
+
+            .item-label {
+                display: inline;
+
+                min-width: 70px;
+
+                color: #888;
+
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-full,
+            .progress-area {
+                grid-column: auto;
+            }
+
+            .status-buttons {
+                grid-template-columns: 1fr;
+            }
+
         }
     </style>
 </head>
@@ -221,108 +818,160 @@
 <body>
 
 <header>
+
     <a href="Home.html">
         DNB <span>PARTNER</span>
     </a>
+
 </header>
+
 
 <main class="status-container">
 
-    <h1>A/S 신청 현황</h1>
+    <h1 class="page-title">
+        A/S 신청 현황
+    </h1>
+
 
     <p class="description">
-        A/S 접수 시 발급받은 접수번호를 입력해주세요.
+        브랜드별 A/S 접수 및 처리 현황을 확인할 수 있습니다.<br>
+        접수건을 선택하면 상세정보와 진행상태를 확인할 수 있습니다.
     </p>
 
-    <div class="search-area">
+
+    <section class="summary-area">
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                전체 접수
+            </div>
+
+            <div
+                class="summary-number"
+                id="totalCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card received-card">
+
+            <div class="summary-label">
+                접수완료
+            </div>
+
+            <div
+                class="summary-number"
+                id="receivedCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card progress-card">
+
+            <div class="summary-label">
+                진행중
+            </div>
+
+            <div
+                class="summary-number"
+                id="progressCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card complete-card">
+
+            <div class="summary-label">
+                처리완료
+            </div>
+
+            <div
+                class="summary-number"
+                id="completeCount"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="toolbar">
 
         <input
             type="text"
-            id="receiptInput"
-            placeholder="예: AS-20260820-123456"
+            class="search-input"
+            id="searchInput"
+            placeholder="접수번호, 고객명, 연락처, 브랜드, 제품명 검색"
             autocomplete="off"
         >
 
+
         <button
             type="button"
+            class="search-btn"
             id="searchButton"
         >
-            조회하기
+            검색
         </button>
 
-    </div>
+
+        <button
+            type="button"
+            class="expand-btn"
+            id="expandAllButton"
+        >
+            모두 펼치기
+        </button>
+
+
+        <button
+            type="button"
+            class="collapse-btn"
+            id="collapseAllButton"
+        >
+            모두 접기
+        </button>
+
+    </section>
 
 
     <div
-        class="error-message"
-        id="errorMessage"
+        class="error-box"
+        id="errorBox"
     ></div>
 
 
     <div
-        class="result"
-        id="resultBox"
+        class="loading"
+        id="loading"
     >
-
-        <div class="result-row">
-            <span class="result-label">
-                접수번호
-            </span>
-
-            <span
-                class="result-value"
-                id="resultReceipt"
-            ></span>
-        </div>
+        A/S 신청 내역을 불러오는 중입니다...
+    </div>
 
 
-        <div class="result-row">
-            <span class="result-label">
-                브랜드
-            </span>
-
-            <span
-                class="result-value"
-                id="resultBrand"
-            ></span>
-        </div>
+    <div
+        class="brand-list"
+        id="brandList"
+    ></div>
 
 
-        <div class="result-row">
-            <span class="result-label">
-                제품
-            </span>
-
-            <span
-                class="result-value"
-                id="resultProduct"
-            ></span>
-        </div>
-
-
-        <div class="result-row">
-            <span class="result-label">
-                접수일
-            </span>
-
-            <span
-                class="result-value"
-                id="resultDate"
-            ></span>
-        </div>
-
-
-        <div class="result-row">
-            <span class="result-label">
-                현재 상태
-            </span>
-
-            <span
-                class="result-value status"
-                id="resultStatus"
-            ></span>
-        </div>
-
+    <div
+        class="no-result"
+        id="noResult"
+    >
+        일치하는 A/S 신청 내역이 없습니다.
     </div>
 
 
@@ -338,276 +987,1615 @@
 
 <script type="module">
 
-    import { db } from "./firebase-config.js";
+    import "./firebase-config.js";
+
 
     import {
         getApp
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+    }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
 
     import {
         getAuth,
         onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+    }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
 
     import {
+        getFirestore,
+        collection,
+        getDocs,
         doc,
-        getDoc
-    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+        updateDoc,
+        serverTimestamp
+    }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-    const app = getApp();
-    const auth = getAuth(app);
+    const app =
+        getApp();
 
 
-    const receiptInput =
-        document.getElementById("receiptInput");
+    const auth =
+        getAuth(app);
+
+
+    const db =
+        getFirestore(app);
+
+
+    const brandList =
+        document.getElementById(
+            "brandList"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    const errorBox =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    const noResult =
+        document.getElementById(
+            "noResult"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
 
     const searchButton =
-        document.getElementById("searchButton");
-
-    const resultBox =
-        document.getElementById("resultBox");
-
-    const errorMessage =
-        document.getElementById("errorMessage");
-
-    const resultReceipt =
-        document.getElementById("resultReceipt");
-
-    const resultBrand =
-        document.getElementById("resultBrand");
-
-    const resultProduct =
-        document.getElementById("resultProduct");
-
-    const resultDate =
-        document.getElementById("resultDate");
-
-    const resultStatus =
-        document.getElementById("resultStatus");
+        document.getElementById(
+            "searchButton"
+        );
 
 
-    /*
-        로그인 확인
-    */
+    const expandAllButton =
+        document.getElementById(
+            "expandAllButton"
+        );
+
+
+    const collapseAllButton =
+        document.getElementById(
+            "collapseAllButton"
+        );
+
+
+    const totalCount =
+        document.getElementById(
+            "totalCount"
+        );
+
+
+    const receivedCount =
+        document.getElementById(
+            "receivedCount"
+        );
+
+
+    const progressCount =
+        document.getElementById(
+            "progressCount"
+        );
+
+
+    const completeCount =
+        document.getElementById(
+            "completeCount"
+        );
+
+
+    let applications = [];
+
+
+    const brandOrder = [
+
+        "아메리칸 스탠다드",
+
+        "더죤(필로토)",
+
+        "폰타나",
+
+        "에떼르노",
+
+        "리델",
+
+        "힘펠",
+
+        "베르사츠(인토)",
+
+        "라우체(화신)",
+
+        "대림바스",
+
+        "히든바스",
+
+        "카비원",
+
+        "스파이더",
+
+        "도비도스",
+
+        "트렌드주식회사"
+
+    ];
+
+
     onAuthStateChanged(
         auth,
-        function (user) {
+        async function (user) {
 
             if (!user) {
 
                 window.location.replace(
                     "index.html"
                 );
+
+                return;
+
             }
+
+
+            await loadApplications();
 
         }
     );
 
 
-    /*
-        날짜 표시
-    */
+    function escapeHtml(value) {
+
+        if (
+            value === undefined ||
+            value === null
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    function normalizeStatus(status) {
+
+        const value =
+            String(
+                status ||
+                ""
+            )
+            .replace(/\s/g, "")
+            .toLowerCase();
+
+
+        if (
+            value === "진행중" ||
+            value === "처리중"
+        ) {
+
+            return "진행중";
+
+        }
+
+
+        if (
+            value === "처리완료" ||
+            value === "완료"
+        ) {
+
+            return "처리완료";
+
+        }
+
+
+        return "접수완료";
+
+    }
+
+
+    function getStatusClass(status) {
+
+        const normalized =
+            normalizeStatus(status);
+
+
+        if (
+            normalized ===
+            "진행중"
+        ) {
+
+            return "status-progress";
+
+        }
+
+
+        if (
+            normalized ===
+            "처리완료"
+        ) {
+
+            return "status-complete";
+
+        }
+
+
+        return "status-received";
+
+    }
+
+
+    function getStatusLevel(status) {
+
+        const normalized =
+            normalizeStatus(status);
+
+
+        if (
+            normalized ===
+            "처리완료"
+        ) {
+
+            return 3;
+
+        }
+
+
+        if (
+            normalized ===
+            "진행중"
+        ) {
+
+            return 2;
+
+        }
+
+
+        return 1;
+
+    }
+
+
     function formatDate(timestamp) {
 
         if (!timestamp) {
+
             return "-";
+
         }
+
 
         try {
 
-            return timestamp
-                .toDate()
-                .toLocaleDateString(
-                    "ko-KR",
-                    {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit"
-                    }
-                );
+            const date =
+                timestamp.toDate
+                ?
+                timestamp.toDate()
+                :
+                new Date(timestamp);
+
+
+            return date.toLocaleDateString(
+                "ko-KR",
+                {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
+                }
+            );
 
         } catch (error) {
 
             return "-";
+
         }
+
     }
 
 
-    /*
-        상태별 색상 처리
-    */
-    function setStatusStyle(status) {
+    function formatDateTime(timestamp) {
 
-        resultStatus.className =
-            "result-value status";
+        if (!timestamp) {
 
+            return "-";
 
-        if (status === "접수 완료") {
-
-            resultStatus.classList.add(
-                "received"
-            );
-
-        } else if (status === "처리 중") {
-
-            resultStatus.classList.add(
-                "working"
-            );
-
-        } else if (status === "처리 완료") {
-
-            resultStatus.classList.add(
-                "complete"
-            );
-
-        } else if (status === "취소") {
-
-            resultStatus.classList.add(
-                "cancel"
-            );
-        }
-    }
-
-
-    /*
-        A/S 현황 조회
-    */
-    async function searchStatus() {
-
-        const receiptNumber =
-            receiptInput
-                .value
-                .trim()
-                .toUpperCase();
-
-
-        resultBox.style.display =
-            "none";
-
-        errorMessage.style.display =
-            "none";
-
-
-        if (!receiptNumber) {
-
-            errorMessage.textContent =
-                "접수번호를 입력해주세요.";
-
-            errorMessage.style.display =
-                "block";
-
-            return;
         }
 
 
         try {
 
-            searchButton.disabled =
-                true;
+            const date =
+                timestamp.toDate
+                ?
+                timestamp.toDate()
+                :
+                new Date(timestamp);
 
-            searchButton.textContent =
-                "조회 중...";
+
+            return date.toLocaleString(
+                "ko-KR",
+                {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        } catch (error) {
+
+            return "-";
+
+        }
+
+    }
 
 
-            const statusRef =
-                doc(
-                    db,
-                    "asPublicStatus",
-                    receiptNumber
+    function maskName(name) {
+
+        if (!name) {
+
+            return "-";
+
+        }
+
+
+        const text =
+            String(name);
+
+
+        if (
+            text.length === 1
+        ) {
+
+            return text;
+
+        }
+
+
+        if (
+            text.length === 2
+        ) {
+
+            return (
+                text[0] +
+                "○"
+            );
+
+        }
+
+
+        return (
+            text[0] +
+            "○".repeat(
+                text.length - 2
+            ) +
+            text[
+                text.length - 1
+            ]
+        );
+
+    }
+
+
+    function maskPhone(phone) {
+
+        if (!phone) {
+
+            return "-";
+
+        }
+
+
+        const numbers =
+            String(phone)
+                .replace(
+                    /\D/g,
+                    ""
                 );
+
+
+        if (
+            numbers.length === 11
+        ) {
+
+            return (
+                numbers.slice(
+                    0,
+                    3
+                ) +
+                "-****-" +
+                numbers.slice(
+                    7
+                )
+            );
+
+        }
+
+
+        if (
+            numbers.length >= 9
+        ) {
+
+            return (
+                numbers.slice(
+                    0,
+                    3
+                ) +
+                "-****-" +
+                numbers.slice(
+                    -4
+                )
+            );
+
+        }
+
+
+        return String(phone);
+
+    }
+
+
+    async function loadApplications() {
+
+        try {
+
+            loading.style.display =
+                "block";
+
+
+            errorBox.style.display =
+                "none";
 
 
             const snapshot =
-                await getDoc(
-                    statusRef
+                await getDocs(
+                    collection(
+                        db,
+                        "asApplications"
+                    )
                 );
 
 
-            if (!snapshot.exists()) {
-
-                errorMessage.textContent =
-                    "일치하는 A/S 접수 내역이 없습니다.";
-
-                errorMessage.style.display =
-                    "block";
-
-                return;
-            }
+            applications = [];
 
 
-            const data =
-                snapshot.data();
+            snapshot.forEach(
+                function (document) {
 
+                    applications.push({
 
-            resultReceipt.textContent =
-                data.receiptNumber || "-";
+                        id:
+                            document.id,
 
+                        ...document.data()
 
-            resultBrand.textContent =
-                data.brand || "-";
+                    });
 
-
-            resultProduct.textContent =
-                data.product || "-";
-
-
-            resultDate.textContent =
-                formatDate(
-                    data.createdAt
-                );
-
-
-            const status =
-                data.status || "접수 완료";
-
-
-            resultStatus.textContent =
-                status;
-
-
-            setStatusStyle(
-                status
+                }
             );
 
 
-            resultBox.style.display =
-                "block";
+            applications.sort(
+                function (a, b) {
+
+                    const timeA =
+                        a.createdAt?.seconds ||
+                        0;
+
+
+                    const timeB =
+                        b.createdAt?.seconds ||
+                        0;
+
+
+                    return (
+                        timeB -
+                        timeA
+                    );
+
+                }
+            );
+
+
+            loading.style.display =
+                "none";
+
+
+            updateSummary(
+                applications
+            );
+
+
+            renderBrands(
+                applications,
+                ""
+            );
 
 
         } catch (error) {
 
             console.error(
-                "A/S 조회 오류:",
+                "A/S 현황 불러오기 오류:",
                 error
             );
 
 
-            errorMessage.textContent =
-                "A/S 현황 조회 중 오류가 발생했습니다.";
+            loading.style.display =
+                "none";
 
-            errorMessage.style.display =
+
+            errorBox.style.display =
                 "block";
 
 
-        } finally {
+            if (
+                error.code ===
+                "permission-denied"
+            ) {
 
-            searchButton.disabled =
-                false;
+                errorBox.innerHTML =
+                    "A/S 신청 현황을 조회할 권한이 없습니다.<br>관리자 계정으로 로그인해주세요.";
 
-            searchButton.textContent =
-                "조회하기";
+            } else {
+
+                errorBox.textContent =
+                    "A/S 신청 현황을 불러오지 못했습니다.";
+
+            }
+
         }
+
+    }
+
+
+    function updateSummary(list) {
+
+        totalCount.textContent =
+            list.length;
+
+
+        receivedCount.textContent =
+            list.filter(
+                function (item) {
+
+                    return (
+                        normalizeStatus(
+                            item.status
+                        ) ===
+                        "접수완료"
+                    );
+
+                }
+            ).length;
+
+
+        progressCount.textContent =
+            list.filter(
+                function (item) {
+
+                    return (
+                        normalizeStatus(
+                            item.status
+                        ) ===
+                        "진행중"
+                    );
+
+                }
+            ).length;
+
+
+        completeCount.textContent =
+            list.filter(
+                function (item) {
+
+                    return (
+                        normalizeStatus(
+                            item.status
+                        ) ===
+                        "처리완료"
+                    );
+
+                }
+            ).length;
+
+    }
+
+
+    function getFilteredApplications(keyword) {
+
+        const normalized =
+            keyword
+                .trim()
+                .toLowerCase();
+
+
+        if (!normalized) {
+
+            return applications;
+
+        }
+
+
+        return applications.filter(
+            function (item) {
+
+                const searchable =
+                    [
+
+                        item.receiptNumber,
+
+                        item.customerName,
+
+                        item.phone,
+
+                        item.brand,
+
+                        item.product,
+
+                        item.address,
+
+                        item.content,
+
+                        normalizeStatus(
+                            item.status
+                        )
+
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+
+                return searchable.includes(
+                    normalized
+                );
+
+            }
+        );
+
+    }
+
+
+    function groupByBrand(list) {
+
+        const groups = {};
+
+
+        list.forEach(
+            function (item) {
+
+                const brand =
+                    item.brand ||
+                    "기타";
+
+
+                if (
+                    !groups[brand]
+                ) {
+
+                    groups[brand] =
+                        [];
+
+                }
+
+
+                groups[brand].push(
+                    item
+                );
+
+            }
+        );
+
+
+        return groups;
+
+    }
+
+
+    function getSortedBrands(groups) {
+
+        const existingBrands =
+            Object.keys(
+                groups
+            );
+
+
+        const known =
+            brandOrder.filter(
+                function (brand) {
+
+                    return existingBrands.includes(
+                        brand
+                    );
+
+                }
+            );
+
+
+        const unknown =
+            existingBrands.filter(
+                function (brand) {
+
+                    return !brandOrder.includes(
+                        brand
+                    );
+
+                }
+            );
+
+
+        unknown.sort(
+            function (a, b) {
+
+                return a.localeCompare(
+                    b,
+                    "ko"
+                );
+
+            }
+        );
+
+
+        return [
+            ...known,
+            ...unknown
+        ];
+
+    }
+
+
+    function renderBrands(
+        list,
+        keyword = ""
+    ) {
+
+        brandList.innerHTML =
+            "";
+
+
+        noResult.style.display =
+            "none";
+
+
+        if (
+            list.length === 0
+        ) {
+
+            noResult.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        const groups =
+            groupByBrand(
+                list
+            );
+
+
+        const brands =
+            getSortedBrands(
+                groups
+            );
+
+
+        brands.forEach(
+            function (brand) {
+
+                const items =
+                    groups[brand];
+
+
+                const section =
+                    document.createElement(
+                        "section"
+                    );
+
+
+                section.className =
+                    "brand-section";
+
+
+                if (
+                    keyword.trim()
+                ) {
+
+                    section.classList.add(
+                        "open"
+                    );
+
+                }
+
+
+                const header =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                header.type =
+                    "button";
+
+
+                header.className =
+                    "brand-header";
+
+
+                header.innerHTML = `
+
+                    <div class="brand-left">
+
+                        <span class="arrow">
+                            ▶
+                        </span>
+
+                        <span class="brand-name">
+                            ${escapeHtml(brand)}
+                        </span>
+
+                    </div>
+
+                    <span class="brand-count">
+                        ${items.length}건
+                    </span>
+
+                `;
+
+
+                const content =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                content.className =
+                    "brand-content";
+
+
+                items.forEach(
+                    function (item) {
+
+                        content.appendChild(
+                            createApplicationItem(
+                                item
+                            )
+                        );
+
+                    }
+                );
+
+
+                header.addEventListener(
+                    "click",
+                    function () {
+
+                        section.classList.toggle(
+                            "open"
+                        );
+
+                    }
+                );
+
+
+                section.appendChild(
+                    header
+                );
+
+
+                section.appendChild(
+                    content
+                );
+
+
+                brandList.appendChild(
+                    section
+                );
+
+            }
+        );
+
+    }
+
+
+    function createProgressHtml(status) {
+
+        const level =
+            getStatusLevel(
+                status
+            );
+
+
+        return `
+
+            <div class="progress-track">
+
+                <div
+                    class="
+                        progress-step
+                        ${level >= 1 ? "done" : ""}
+                        ${level === 1 ? "current" : ""}
+                    "
+                >
+
+                    <div class="progress-dot">
+                        1
+                    </div>
+
+                    <div class="progress-label">
+                        접수완료
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        progress-step
+                        ${level >= 2 ? "done" : ""}
+                        ${level === 2 ? "current" : ""}
+                    "
+                >
+
+                    <div class="progress-dot">
+                        2
+                    </div>
+
+                    <div class="progress-label">
+                        진행중
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        progress-step
+                        ${level >= 3 ? "done" : ""}
+                        ${level === 3 ? "current" : ""}
+                    "
+                >
+
+                    <div class="progress-dot">
+                        3
+                    </div>
+
+                    <div class="progress-label">
+                        처리완료
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    function createApplicationItem(item) {
+
+        const wrapper =
+            document.createElement(
+                "article"
+            );
+
+
+        wrapper.className =
+            "application-item";
+
+
+        const summary =
+            document.createElement(
+                "button"
+            );
+
+
+        summary.type =
+            "button";
+
+
+        summary.className =
+            "application-summary";
+
+
+        const currentStatus =
+            normalizeStatus(
+                item.status
+            );
+
+
+        summary.innerHTML = `
+
+            <div>
+
+                <span class="item-label">
+                    접수번호
+                </span>
+
+                <span class="receipt-number">
+                    ${escapeHtml(
+                        item.receiptNumber ||
+                        "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="item-label">
+                    접수일
+                </span>
+
+                <span class="item-value">
+                    ${formatDate(
+                        item.createdAt
+                    )}
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="item-label">
+                    제품
+                </span>
+
+                <span class="item-value">
+                    ${escapeHtml(
+                        item.product ||
+                        "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="item-label">
+                    고객
+                </span>
+
+                <span class="item-value">
+                    ${escapeHtml(
+                        maskName(
+                            item.customerName
+                        )
+                    )}
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <span class="item-label">
+                    상태
+                </span>
+
+                <span
+                    class="
+                        status-badge
+                        ${getStatusClass(
+                            currentStatus
+                        )}
+                    "
+                >
+                    ${currentStatus}
+                </span>
+
+            </div>
+
+        `;
+
+
+        const detail =
+            document.createElement(
+                "div"
+            );
+
+
+        detail.className =
+            "application-detail";
+
+
+        detail.innerHTML = `
+
+            <div class="detail-grid">
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        접수번호
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            item.receiptNumber ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        브랜드
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            item.brand ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        고객명
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            maskName(
+                                item.customerName
+                            )
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        연락처
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            maskPhone(
+                                item.phone
+                            )
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        제품명
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            item.product ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <div class="detail-label">
+                        접수일
+                    </div>
+
+                    <div class="detail-value">
+                        ${formatDateTime(
+                            item.createdAt
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="
+                    detail-row
+                    detail-full
+                ">
+
+                    <div class="detail-label">
+                        주소
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            item.address ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="
+                    detail-row
+                    detail-full
+                ">
+
+                    <div class="detail-label">
+                        A/S 내용
+                    </div>
+
+                    <div class="detail-value">
+                        ${escapeHtml(
+                            item.content ||
+                            "-"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="progress-area">
+
+                    <div class="progress-title">
+                        A/S 진행 상황
+                    </div>
+
+                    <div
+                        class="progress-container"
+                    >
+                        ${createProgressHtml(
+                            currentStatus
+                        )}
+                    </div>
+
+
+                    <div class="status-change-title">
+                        진행 상태 변경
+                    </div>
+
+
+                    <div class="status-buttons">
+
+                        <button
+                            type="button"
+                            class="
+                                status-button
+                                received-status-button
+                                ${
+                                    currentStatus === "접수완료"
+                                    ?
+                                    "active-received"
+                                    :
+                                    ""
+                                }
+                            "
+                            data-status="접수완료"
+                        >
+                            접수완료
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="
+                                status-button
+                                progress-status-button
+                                ${
+                                    currentStatus === "진행중"
+                                    ?
+                                    "active-progress"
+                                    :
+                                    ""
+                                }
+                            "
+                            data-status="진행중"
+                        >
+                            진행중
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="
+                                status-button
+                                complete-status-button
+                                ${
+                                    currentStatus === "처리완료"
+                                    ?
+                                    "active-complete"
+                                    :
+                                    ""
+                                }
+                            "
+                            data-status="처리완료"
+                        >
+                            처리완료
+                        </button>
+
+                    </div>
+
+
+                    <div class="updated-text">
+
+                        ${
+                            item.updatedAt
+                            ?
+                            "마지막 변경 : " +
+                            formatDateTime(
+                                item.updatedAt
+                            )
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+        summary.addEventListener(
+            "click",
+            function () {
+
+                wrapper.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        const statusButtons =
+            detail.querySelectorAll(
+                ".status-button"
+            );
+
+
+        statusButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    async function () {
+
+                        const newStatus =
+                            button.dataset.status;
+
+
+                        await changeStatus(
+                            item,
+                            newStatus,
+                            wrapper
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        wrapper.appendChild(
+            summary
+        );
+
+
+        wrapper.appendChild(
+            detail
+        );
+
+
+        return wrapper;
+
+    }
+
+
+    async function changeStatus(
+        item,
+        newStatus,
+        wrapper
+    ) {
+
+        const currentStatus =
+            normalizeStatus(
+                item.status
+            );
+
+
+        if (
+            currentStatus ===
+            newStatus
+        ) {
+
+            return;
+
+        }
+
+
+        const buttons =
+            wrapper.querySelectorAll(
+                ".status-button"
+            );
+
+
+        buttons.forEach(
+            function (button) {
+
+                button.disabled =
+                    true;
+
+            }
+        );
+
+
+        try {
+
+            const applicationRef =
+                doc(
+                    db,
+                    "asApplications",
+                    item.id
+                );
+
+
+            await updateDoc(
+                applicationRef,
+                {
+
+                    status:
+                        newStatus,
+
+                    updatedAt:
+                        serverTimestamp()
+
+                }
+            );
+
+
+            item.status =
+                newStatus;
+
+
+            item.updatedAt =
+                new Date();
+
+
+            updateSummary(
+                applications
+            );
+
+
+            const keyword =
+                searchInput.value;
+
+
+            const filtered =
+                getFilteredApplications(
+                    keyword
+                );
+
+
+            renderBrands(
+                filtered,
+                keyword
+            );
+
+
+            alert(
+                "A/S 진행 상태가 '" +
+                newStatus +
+                "'으로 변경되었습니다."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "상태 변경 오류:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "permission-denied"
+            ) {
+
+                alert(
+                    "상태 변경 권한이 없습니다.\n관리자 계정과 Firebase 규칙을 확인해주세요."
+                );
+
+            } else {
+
+                alert(
+                    "상태 변경 중 오류가 발생했습니다."
+                );
+
+            }
+
+
+            buttons.forEach(
+                function (button) {
+
+                    button.disabled =
+                        false;
+
+                }
+            );
+
+        }
+
+    }
+
+
+    function executeSearch() {
+
+        const keyword =
+            searchInput.value;
+
+
+        const filtered =
+            getFilteredApplications(
+                keyword
+            );
+
+
+        updateSummary(
+            filtered
+        );
+
+
+        renderBrands(
+            filtered,
+            keyword
+        );
+
     }
 
 
     searchButton.addEventListener(
         "click",
-        searchStatus
+        executeSearch
     );
 
 
-    receiptInput.addEventListener(
+    searchInput.addEventListener(
         "keydown",
         function (event) {
 
@@ -616,8 +2604,94 @@
                 "Enter"
             ) {
 
-                searchStatus();
+                executeSearch();
+
             }
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            if (
+                searchInput
+                    .value
+                    .trim() === ""
+            ) {
+
+                updateSummary(
+                    applications
+                );
+
+
+                renderBrands(
+                    applications,
+                    ""
+                );
+
+            }
+
+        }
+    );
+
+
+    expandAllButton.addEventListener(
+        "click",
+        function () {
+
+            document
+                .querySelectorAll(
+                    ".brand-section"
+                )
+                .forEach(
+                    function (section) {
+
+                        section.classList.add(
+                            "open"
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+
+    collapseAllButton.addEventListener(
+        "click",
+        function () {
+
+            document
+                .querySelectorAll(
+                    ".brand-section"
+                )
+                .forEach(
+                    function (section) {
+
+                        section.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".application-item"
+                )
+                .forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
 
         }
     );
