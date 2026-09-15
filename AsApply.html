@@ -100,6 +100,7 @@
         select,
         textarea {
             width: 100%;
+            min-width: 0;
             padding: 14px;
             border: 1px solid #cfcfcf;
             border-radius: 9px;
@@ -120,6 +121,13 @@
         textarea {
             min-height: 140px;
             resize: vertical;
+        }
+
+        .purchase-date-help {
+            margin: 8px 0 0;
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .photo-area {
@@ -320,12 +328,22 @@
 
         <div class="form-group">
             <label for="customerName">고객명</label>
-            <input type="text" id="customerName" required placeholder="고객명을 입력하세요">
+            <input
+                type="text"
+                id="customerName"
+                required
+                placeholder="고객명을 입력하세요"
+            >
         </div>
 
         <div class="form-group">
             <label for="phone">연락처</label>
-            <input type="tel" id="phone" required placeholder="010-1234-5678">
+            <input
+                type="tel"
+                id="phone"
+                required
+                placeholder="010-1234-5678"
+            >
         </div>
 
         <div class="form-group">
@@ -345,23 +363,56 @@
                 <option value="히든바스">히든바스</option>
                 <option value="카비원">카비원</option>
                 <option value="스파이더">스파이더</option>
+                <option value="도비도스">도비도스</option>
                 <option value="트렌드주식회사">트렌드주식회사</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="product">제품명</label>
-            <input type="text" id="product" required placeholder="예: 세면기, 양변기, 수전">
+            <input
+                type="text"
+                id="product"
+                required
+                placeholder="예: 세면기, 양변기, 수전"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="purchaseDate">구매일자 (년·월·일)</label>
+
+            <input
+                type="date"
+                id="purchaseDate"
+                name="purchaseDate"
+                min="0001-01-01"
+                required
+                aria-describedby="purchaseDateHelp"
+            >
+
+            <p class="purchase-date-help" id="purchaseDateHelp">
+                실제 구매한 날짜를 년·월·일까지 입력해주세요.<br>
+                구매 후 1년이 지나면 무상 A/S가 불가합니다.
+            </p>
         </div>
 
         <div class="form-group">
             <label for="address">주소</label>
-            <input type="text" id="address" required placeholder="A/S 방문 주소를 입력하세요">
+            <input
+                type="text"
+                id="address"
+                required
+                placeholder="A/S 방문 주소를 입력하세요"
+            >
         </div>
 
         <div class="form-group">
             <label for="content">A/S 내용</label>
-            <textarea id="content" required placeholder="제품의 문제를 자세히 작성하세요"></textarea>
+            <textarea
+                id="content"
+                required
+                placeholder="제품의 문제를 자세히 작성하세요"
+            ></textarea>
         </div>
 
         <div class="form-group photo-area">
@@ -400,10 +451,7 @@
 
     </form>
 
-    <div
-        class="result-box"
-        id="resultBox">
-    </div>
+    <div class="result-box" id="resultBox"></div>
 
     <button
         type="button"
@@ -412,10 +460,7 @@
         신청내용 다시 복사하기
     </button>
 
-    <div
-        class="photo-buttons"
-        id="photoButtons">
-    </div>
+    <div class="photo-buttons" id="photoButtons"></div>
 
     <button
         type="button"
@@ -424,36 +469,30 @@
         해당 업체 A/S 채널 열기
     </button>
 
-    <a
-        href="AsService.html"
-        class="back-btn">
+    <a href="AsService.html" class="back-btn">
         ← 브랜드 선택으로 돌아가기
     </a>
 
 </main>
 
 <script type="module">
+    import { db } from "./firebase-config.js";
 
-    import { db }
-    from "./firebase-config.js";
-
-    import { getApp }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+    import {
+        getApp
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
     import {
         getAuth,
         onAuthStateChanged
-    }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
     import {
         collection,
         doc,
         writeBatch,
         serverTimestamp
-    }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
     const app = getApp();
     const auth = getAuth(app);
@@ -461,62 +500,79 @@
     const asForm = document.getElementById("asForm");
     const submitButton = document.getElementById("submitButton");
     const resultBox = document.getElementById("resultBox");
-
-    const brandSelect =
-        document.getElementById("brand");
-
-    const selectedBrand =
-        document.getElementById("selectedBrand");
-
-    const copyButton =
-        document.getElementById("copyButton");
-
-    const moveButton =
-        document.getElementById("moveButton");
-
-    const photoInput =
-        document.getElementById("photoInput");
-
-    const photoCount =
-        document.getElementById("photoCount");
-
-    const previewContainer =
-        document.getElementById("previewContainer");
-
-    const photoButtons =
-        document.getElementById("photoButtons");
-
+    const brandSelect = document.getElementById("brand");
+    const selectedBrand = document.getElementById("selectedBrand");
+    const copyButton = document.getElementById("copyButton");
+    const moveButton = document.getElementById("moveButton");
+    const photoInput = document.getElementById("photoInput");
+    const photoCount = document.getElementById("photoCount");
+    const previewContainer = document.getElementById("previewContainer");
+    const photoButtons = document.getElementById("photoButtons");
+    const purchaseDateInput = document.getElementById("purchaseDate");
 
     let copiedText = "";
     let destinationUrl = "";
     let selectedPhotos = [];
 
+    /* 한국 기준 오늘 날짜 */
+    function getTodayInKorea() {
+        const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: "Asia/Seoul",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).formatToParts(new Date());
 
-    /* =========================
-       사진 복사 기능 적용 브랜드
-    ========================== */
+        const values = Object.fromEntries(
+            parts.map(part => [part.type, part.value])
+        );
 
+        return values.year + "-" + values.month + "-" + values.day;
+    }
+
+    /* 구매일자 확인 */
+    function isValidPurchaseDate(value, today) {
+        if (
+            !/^\d{4}-\d{2}-\d{2}$/.test(value) ||
+            value < "0001-01-01" ||
+            value > today
+        ) {
+            return false;
+        }
+
+        const date = new Date(value + "T00:00:00Z");
+
+        return (
+            !Number.isNaN(date.getTime()) &&
+            date.toISOString().slice(0, 10) === value
+        );
+    }
+
+    /* 카카오톡에 표시할 구매일자 */
+    function formatPurchaseDate(value) {
+        const [year, month, day] = value.split("-");
+
+        return year + "년 " + month + "월 " + day + "일";
+    }
+
+    purchaseDateInput.max = getTodayInKorea();
+
+    purchaseDateInput.addEventListener("focus", function () {
+        purchaseDateInput.max = getTodayInKorea();
+    });
+
+    /* 사진 복사 기능 적용 브랜드 */
     const photoCopyBrands = [
-
         "대림바스",
-
         "라우체(화신)",
-
         "스파이더",
-
         "베르사츠(인토)",
-
-        "카비원"
-
+        "카비원",
+        "도비도스"
     ];
 
-
-    /* =========================
-       브랜드별 A/S 링크
-    ========================== */
-
+    /* 브랜드별 A/S 링크 */
     const brandLinks = {
-
         "아메리칸 스탠다드":
             "https://standard-as.co.kr/main/as_afterservice/write.do",
 
@@ -553,814 +609,362 @@
         "스파이더":
             "https://open.kakao.com/o/gJa2OCKi",
 
+        "도비도스":
+            "https://open.kakao.com/o/g4agLwNi",
+
         "트렌드주식회사":
             "https://pf.kakao.com/_CxiAxmxj"
-
     };
 
-
-    /* =========================
-       로그인 확인
-    ========================== */
-
-    onAuthStateChanged(
-        auth,
-        function (user) {
-
-            if (!user) {
-                window.location.replace("index.html");
-            }
-
+    /* 로그인 확인 */
+    onAuthStateChanged(auth, function (user) {
+        if (!user) {
+            window.location.replace("index.html");
         }
-    );
+    });
 
+    /* URL 브랜드 자동 선택 */
+    const params = new URLSearchParams(window.location.search);
+    const brandFromUrl = params.get("brand");
 
-    /* =========================
-       URL 브랜드 자동 선택
-    ========================== */
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const brandFromUrl =
-        params.get("brand");
-
-
-    if (
-        brandFromUrl &&
-        brandLinks[brandFromUrl]
-    ) {
-
-        brandSelect.value =
-            brandFromUrl;
-
-        selectedBrand.textContent =
-            "선택 브랜드 : " +
-            brandFromUrl;
-
+    if (brandFromUrl && brandLinks[brandFromUrl]) {
+        brandSelect.value = brandFromUrl;
+        selectedBrand.textContent = "선택 브랜드 : " + brandFromUrl;
     } else {
-
-        selectedBrand.textContent =
-            "A/S 브랜드를 선택해주세요.";
-
+        selectedBrand.textContent = "A/S 브랜드를 선택해주세요.";
     }
 
+    brandSelect.addEventListener("change", function () {
+        selectedBrand.textContent = brandSelect.value
+            ? "선택 브랜드 : " + brandSelect.value
+            : "A/S 브랜드를 선택해주세요.";
+    });
 
-    brandSelect.addEventListener(
-        "change",
-        function () {
+    /* 사진 선택 */
+    photoInput.addEventListener("change", function () {
+        const files = Array.from(photoInput.files);
 
-            selectedBrand.textContent =
-                brandSelect.value
-                ? "선택 브랜드 : " +
-                  brandSelect.value
-                : "A/S 브랜드를 선택해주세요.";
+        if (files.length > 5) {
+            alert("사진은 최대 5장까지 선택할 수 있습니다.");
 
-        }
-    );
-
-
-    /* =========================
-       사진 선택
-    ========================== */
-
-    photoInput.addEventListener(
-        "change",
-        function () {
-
-            const files =
-                Array.from(
-                    photoInput.files
-                );
-
-            if (files.length > 5) {
-
-                alert(
-                    "사진은 최대 5장까지 선택할 수 있습니다."
-                );
-
-                photoInput.value = "";
-
-                selectedPhotos = [];
-
-                renderPhotoPreview();
-
-                return;
-            }
-
-            selectedPhotos = files;
-
+            photoInput.value = "";
+            selectedPhotos = [];
             renderPhotoPreview();
-
+            return;
         }
-    );
 
+        selectedPhotos = files;
+        renderPhotoPreview();
+    });
 
-    /* =========================
-       사진 미리보기
-    ========================== */
-
+    /* 사진 미리보기 */
     function renderPhotoPreview() {
-
         previewContainer.innerHTML = "";
 
-        if (
-            selectedPhotos.length === 0
-        ) {
-
-            photoCount.textContent =
-                "선택된 사진 없음";
-
+        if (selectedPhotos.length === 0) {
+            photoCount.textContent = "선택된 사진 없음";
             return;
         }
 
         photoCount.textContent =
-            "선택된 사진 : " +
-            selectedPhotos.length +
-            "장";
+            "선택된 사진 : " + selectedPhotos.length + "장";
 
+        selectedPhotos.forEach(function (file, index) {
+            const item = document.createElement("div");
+            item.className = "preview-item";
 
-        selectedPhotos.forEach(
-            function (file, index) {
+            const image = document.createElement("img");
+            const objectUrl = URL.createObjectURL(file);
 
-                const item =
-                    document.createElement("div");
+            image.src = objectUrl;
 
-                item.className =
-                    "preview-item";
+            image.onload = function () {
+                URL.revokeObjectURL(objectUrl);
+            };
 
+            const name = document.createElement("div");
+            name.className = "preview-name";
+            name.textContent = (index + 1) + ". " + file.name;
 
-                const image =
-                    document.createElement("img");
-
-
-                const objectUrl =
-                    URL.createObjectURL(file);
-
-                image.src = objectUrl;
-
-
-                image.onload =
-                    function () {
-
-                        URL.revokeObjectURL(
-                            objectUrl
-                        );
-
-                    };
-
-
-                const name =
-                    document.createElement("div");
-
-                name.className =
-                    "preview-name";
-
-                name.textContent =
-                    (index + 1) +
-                    ". " +
-                    file.name;
-
-
-                item.appendChild(image);
-
-                item.appendChild(name);
-
-                previewContainer.appendChild(
-                    item
-                );
-
-            }
-        );
-
+            item.appendChild(image);
+            item.appendChild(name);
+            previewContainer.appendChild(item);
+        });
     }
 
-
-    /* =========================
-       접수번호 생성
-    ========================== */
-
+    /* 접수번호 생성 */
     function createReceiptNumber() {
-
         const now = new Date();
 
-        const year =
-            now.getFullYear();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
 
-        const month =
-            String(
-                now.getMonth() + 1
-            ).padStart(2, "0");
-
-        const day =
-            String(
-                now.getDate()
-            ).padStart(2, "0");
-
-        const randomNumber =
-            Math.floor(
-                100000 +
-                Math.random() * 900000
-            );
-
-        return (
-            "AS-" +
-            year +
-            month +
-            day +
-            "-" +
-            randomNumber
+        const randomNumber = Math.floor(
+            100000 + Math.random() * 900000
         );
 
+        return "AS-" + year + month + day + "-" + randomNumber;
     }
 
-
-    /* =========================
-       텍스트 복사
-    ========================== */
-
-    async function copyToClipboard(
-        text
-    ) {
-
+    /* 텍스트 복사 */
+    async function copyToClipboard(text) {
         try {
-
-            if (
-                navigator.clipboard &&
-                window.isSecureContext
-            ) {
-
-                await navigator.clipboard.writeText(
-                    text
-                );
-
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
                 return true;
-
             }
-
         } catch (error) {
-
-            console.warn(
-                "Clipboard API 실패:",
-                error
-            );
-
+            console.warn("Clipboard API 실패:", error);
         }
 
-
         try {
-
-            const textArea =
-                document.createElement(
-                    "textarea"
-                );
+            const textArea = document.createElement("textarea");
 
             textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
 
-            textArea.style.position =
-                "fixed";
-
-            textArea.style.left =
-                "-9999px";
-
-            document.body.appendChild(
-                textArea
-            );
+            document.body.appendChild(textArea);
 
             textArea.focus();
-
             textArea.select();
 
+            const success = document.execCommand("copy");
 
-            const success =
-                document.execCommand(
-                    "copy"
-                );
-
-
-            document.body.removeChild(
-                textArea
-            );
+            document.body.removeChild(textArea);
 
             return success;
-
         } catch (error) {
-
-            console.error(
-                "텍스트 복사 실패:",
-                error
-            );
-
+            console.error("텍스트 복사 실패:", error);
             return false;
-
         }
-
     }
 
-
-    /* =========================
-       이미지 PNG 변환
-    ========================== */
-
-    async function convertImageToPngBlob(
-        file
-    ) {
-
-        const imageUrl =
-            URL.createObjectURL(file);
-
+    /* 이미지 PNG 변환 */
+    async function convertImageToPngBlob(file) {
+        const imageUrl = URL.createObjectURL(file);
 
         try {
+            const img = new Image();
 
-            const img =
-                new Image();
+            await new Promise(function (resolve, reject) {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = imageUrl;
+            });
 
+            const canvas = document.createElement("canvas");
 
-            await new Promise(
-                function (
-                    resolve,
-                    reject
-                ) {
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
 
-                    img.onload =
-                        resolve;
+            const context = canvas.getContext("2d");
+            context.drawImage(img, 0, 0);
 
-                    img.onerror =
-                        reject;
-
-                    img.src =
-                        imageUrl;
-
-                }
-            );
-
-
-            const canvas =
-                document.createElement(
-                    "canvas"
-                );
-
-
-            canvas.width =
-                img.naturalWidth;
-
-            canvas.height =
-                img.naturalHeight;
-
-
-            const context =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            context.drawImage(
-                img,
-                0,
-                0
-            );
-
-
-            return await new Promise(
-                function (
-                    resolve,
-                    reject
-                ) {
-
-                    canvas.toBlob(
-                        function (blob) {
-
-                            if (blob) {
-
-                                resolve(blob);
-
-                            } else {
-
-                                reject(
-                                    new Error(
-                                        "이미지 변환 실패"
-                                    )
-                                );
-
-                            }
-
-                        },
-                        "image/png"
-                    );
-
-                }
-            );
-
+            return await new Promise(function (resolve, reject) {
+                canvas.toBlob(function (blob) {
+                    if (blob) {
+                        resolve(blob);
+                    } else {
+                        reject(new Error("이미지 변환 실패"));
+                    }
+                }, "image/png");
+            });
         } finally {
-
-            URL.revokeObjectURL(
-                imageUrl
-            );
-
+            URL.revokeObjectURL(imageUrl);
         }
-
     }
 
-
-    /* =========================
-       이미지 클립보드 복사
-    ========================== */
-
-    async function copyPhotoToClipboard(
-        file
-    ) {
-
-        if (
-            !navigator.clipboard ||
-            !window.ClipboardItem
-        ) {
-
+    /* 이미지 클립보드 복사 */
+    async function copyPhotoToClipboard(file) {
+        if (!navigator.clipboard || !window.ClipboardItem) {
             throw new Error(
                 "이 브라우저에서는 이미지 복사를 지원하지 않습니다."
             );
-
         }
 
+        const pngBlob = await convertImageToPngBlob(file);
 
-        const pngBlob =
-            await convertImageToPngBlob(
-                file
-            );
+        const clipboardItem = new ClipboardItem({
+            "image/png": pngBlob
+        });
 
-
-        const clipboardItem =
-            new ClipboardItem({
-
-                "image/png":
-                    pngBlob
-
-            });
-
-
-        await navigator.clipboard.write(
-            [clipboardItem]
-        );
-
+        await navigator.clipboard.write([clipboardItem]);
     }
 
-
-    /* =========================
-       사진별 복사 버튼
-    ========================== */
-
+    /* 사진별 복사 버튼 */
     function createPhotoCopyButtons() {
-
         photoButtons.innerHTML = "";
 
-
         if (
-            !photoCopyBrands.includes(
-                brandSelect.value
-            ) ||
+            !photoCopyBrands.includes(brandSelect.value) ||
             selectedPhotos.length === 0
         ) {
-
-            photoButtons.style.display =
-                "none";
-
+            photoButtons.style.display = "none";
             return;
-
         }
 
+        photoButtons.style.display = "block";
 
-        photoButtons.style.display =
-            "block";
+        selectedPhotos.forEach(function (file, index) {
+            const button = document.createElement("button");
 
+            button.type = "button";
+            button.className = "photo-copy-btn";
+            button.textContent = "사진 " + (index + 1) + " 복사하기";
 
-        selectedPhotos.forEach(
-            function (file, index) {
+            button.addEventListener("click", async function () {
+                const originalText = button.textContent;
 
-                const button =
-                    document.createElement(
-                        "button"
+                button.disabled = true;
+                button.textContent = "사진 복사 중...";
+
+                try {
+                    await copyPhotoToClipboard(file);
+
+                    button.classList.add("copied");
+                    button.textContent =
+                        "✓ 사진 " + (index + 1) + " 복사 완료";
+
+                    setTimeout(function () {
+                        button.disabled = false;
+                        button.classList.remove("copied");
+                        button.textContent = originalText;
+                    }, 2500);
+                } catch (error) {
+                    console.error("사진 복사 오류:", error);
+
+                    alert(
+                        "사진을 클립보드에 복사하지 못했습니다.\n\n" +
+                        "Chrome 또는 Edge 최신 버전에서 다시 시도해주세요.\n" +
+                        "계속 안 되는 경우 카카오톡에서 사진을 직접 첨부해주세요."
                     );
 
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
+            });
 
-                button.type =
-                    "button";
-
-                button.className =
-                    "photo-copy-btn";
-
-                button.textContent =
-                    "사진 " +
-                    (index + 1) +
-                    " 복사하기";
-
-
-                button.addEventListener(
-                    "click",
-                    async function () {
-
-                        const originalText =
-                            button.textContent;
-
-
-                        button.disabled =
-                            true;
-
-                        button.textContent =
-                            "사진 복사 중...";
-
-
-                        try {
-
-                            await copyPhotoToClipboard(
-                                file
-                            );
-
-
-                            button.classList.add(
-                                "copied"
-                            );
-
-                            button.textContent =
-                                "✓ 사진 " +
-                                (index + 1) +
-                                " 복사 완료";
-
-
-                            setTimeout(
-                                function () {
-
-                                    button.disabled =
-                                        false;
-
-                                    button.classList.remove(
-                                        "copied"
-                                    );
-
-                                    button.textContent =
-                                        originalText;
-
-                                },
-                                2500
-                            );
-
-                        } catch (error) {
-
-                            console.error(
-                                "사진 복사 오류:",
-                                error
-                            );
-
-
-                            alert(
-                                "사진을 클립보드에 복사하지 못했습니다.\n\n" +
-                                "Chrome 또는 Edge 최신 버전에서 다시 시도해주세요.\n" +
-                                "계속 안 되는 경우 카카오톡에서 사진을 직접 첨부해주세요."
-                            );
-
-
-                            button.disabled =
-                                false;
-
-                            button.textContent =
-                                originalText;
-
-                        }
-
-                    }
-                );
-
-
-                photoButtons.appendChild(
-                    button
-                );
-
-            }
-        );
-
+            photoButtons.appendChild(button);
+        });
     }
 
-
-    /* =========================
-       신청내용 다시 복사
-    ========================== */
-
-    copyButton.addEventListener(
-        "click",
-        async function () {
-
-            if (!copiedText) {
-                return;
-            }
-
-
-            const success =
-                await copyToClipboard(
-                    copiedText
-                );
-
-
-            if (success) {
-
-                copyButton.textContent =
-                    "✓ 신청내용 복사 완료";
-
-
-                setTimeout(
-                    function () {
-
-                        copyButton.textContent =
-                            "신청내용 다시 복사하기";
-
-                    },
-                    2000
-                );
-
-            } else {
-
-                alert(
-                    "신청내용을 복사하지 못했습니다."
-                );
-
-            }
-
+    /* 신청내용 다시 복사 */
+    copyButton.addEventListener("click", async function () {
+        if (!copiedText) {
+            return;
         }
-    );
 
+        const success = await copyToClipboard(copiedText);
 
-    /* =========================
-       업체 페이지 열기
-    ========================== */
+        if (success) {
+            copyButton.textContent = "✓ 신청내용 복사 완료";
 
-    moveButton.addEventListener(
-        "click",
-        function () {
+            setTimeout(function () {
+                copyButton.textContent = "신청내용 다시 복사하기";
+            }, 2000);
+        } else {
+            alert("신청내용을 복사하지 못했습니다.");
+        }
+    });
 
-            if (!destinationUrl) {
-                return;
-            }
+    /* 업체 페이지 열기 */
+    moveButton.addEventListener("click", function () {
+        if (!destinationUrl) {
+            return;
+        }
 
+        window.open(
+            destinationUrl,
+            "_blank",
+            "noopener,noreferrer"
+        );
+    });
 
-            window.open(
-                destinationUrl,
-                "_blank",
-                "noopener,noreferrer"
+    /* A/S 접수 */
+    asForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const selectedBrandValue = brandSelect.value;
+
+        if (
+            !selectedBrandValue ||
+            !brandLinks[selectedBrandValue]
+        ) {
+            alert("A/S 브랜드를 선택해주세요.");
+            return;
+        }
+
+        const customerName =
+            document.getElementById("customerName").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const product =
+            document.getElementById("product").value.trim();
+
+        const address =
+            document.getElementById("address").value.trim();
+
+        const content =
+            document.getElementById("content").value.trim();
+
+        if (
+            !customerName ||
+            !phone ||
+            !product ||
+            !address ||
+            !content
+        ) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+
+        if (
+            photoCopyBrands.includes(selectedBrandValue) &&
+            selectedPhotos.length === 0
+        ) {
+            alert(
+                selectedBrandValue +
+                " A/S 접수는 문제 제품 사진을 1장 이상 선택해주세요."
+            );
+            return;
+        }
+
+        const purchaseDate = purchaseDateInput.value;
+        const today = getTodayInKorea();
+
+        purchaseDateInput.max = today;
+
+        if (!isValidPurchaseDate(purchaseDate, today)) {
+            alert(
+                "구매일자를 년·월·일까지 정확히 입력해주세요. " +
+                "미래 날짜는 입력할 수 없습니다."
             );
 
+            purchaseDateInput.focus();
+            return;
         }
-    );
 
+        const receiptNumber = createReceiptNumber();
 
-    /* =========================
-       A/S 접수
-    ========================== */
+        const applicationData = {
+            receiptNumber: receiptNumber,
+            customerName: customerName,
+            phone: phone,
+            brand: selectedBrandValue,
+            product: product,
+            purchaseDate: purchaseDate,
+            address: address,
+            content: content,
+            photoCount: selectedPhotos.length,
+            status: "접수 완료",
+            createdAt: serverTimestamp()
+        };
 
-    asForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-
-            const selectedBrandValue =
-                brandSelect.value;
-
-
-            if (
-                !selectedBrandValue ||
-                !brandLinks[
-                    selectedBrandValue
-                ]
-            ) {
-
-                alert(
-                    "A/S 브랜드를 선택해주세요."
-                );
-
-                return;
-
-            }
-
-
-            const customerName =
-                document
-                    .getElementById(
-                        "customerName"
-                    )
-                    .value
-                    .trim();
-
-
-            const phone =
-                document
-                    .getElementById(
-                        "phone"
-                    )
-                    .value
-                    .trim();
-
-
-            const product =
-                document
-                    .getElementById(
-                        "product"
-                    )
-                    .value
-                    .trim();
-
-
-            const address =
-                document
-                    .getElementById(
-                        "address"
-                    )
-                    .value
-                    .trim();
-
-
-            const content =
-                document
-                    .getElementById(
-                        "content"
-                    )
-                    .value
-                    .trim();
-
-
-            if (
-                !customerName ||
-                !phone ||
-                !product ||
-                !address ||
-                !content
-            ) {
-
-                alert(
-                    "모든 항목을 입력해주세요."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                photoCopyBrands.includes(
-                    selectedBrandValue
-                ) &&
-                selectedPhotos.length === 0
-            ) {
-
-                alert(
-                    selectedBrandValue +
-                    " A/S 접수는 문제 제품 사진을 1장 이상 선택해주세요."
-                );
-
-                return;
-
-            }
-
-
-            const receiptNumber =
-                createReceiptNumber();
-
-
-            const applicationData = {
-
-                receiptNumber:
-                    receiptNumber,
-
-                customerName:
-                    customerName,
-
-                phone:
-                    phone,
-
-                brand:
-                    selectedBrandValue,
-
-                product:
-                    product,
-
-                address:
-                    address,
-
-                content:
-                    content,
-
-                photoCount:
-                    selectedPhotos.length,
-
-                status:
-                    "접수 완료",
-
-                createdAt:
-                    serverTimestamp()
-
-            };
-
-
-            copiedText =
+        copiedText =
 `[DNB PARTNER A/S 접수]
 
 접수번호: ${receiptNumber}
@@ -1368,6 +972,7 @@
 고객명: ${customerName}
 연락처: ${phone}
 제품명: ${product}
+구매일자: ${formatPurchaseDate(purchaseDate)}
 주소: ${address}
 A/S 내용: ${content}
 
@@ -1375,296 +980,185 @@ A/S 내용: ${content}
 
 📷 아래에 문제 제품 사진을 함께 첨부합니다.`;
 
+        destinationUrl = brandLinks[selectedBrandValue];
 
-            destinationUrl =
-                brandLinks[
-                    selectedBrandValue
-                ];
+        try {
+            submitButton.disabled = true;
+            submitButton.textContent = "접수 중...";
 
+            const batch = writeBatch(db);
 
-            try {
+            const privateRef = doc(
+                collection(db, "asApplications")
+            );
 
-                submitButton.disabled =
-                    true;
+            batch.set(privateRef, applicationData);
 
-                submitButton.textContent =
-                    "접수 중...";
+            const publicRef = doc(
+                db,
+                "asPublicStatus",
+                receiptNumber
+            );
 
+            batch.set(publicRef, {
+                receiptNumber: receiptNumber,
+                brand: selectedBrandValue,
+                product: product,
+                status: "접수 완료",
+                createdAt: serverTimestamp()
+            });
 
-                const batch =
-                    writeBatch(db);
+            await batch.commit();
 
+            const copySuccess = await copyToClipboard(copiedText);
 
-                const privateRef =
-                    doc(
-                        collection(
-                            db,
-                            "asApplications"
-                        )
-                    );
+            asForm.querySelectorAll(
+                "input:not([type='file']), select, textarea"
+            ).forEach(function (element) {
+                element.disabled = true;
+            });
 
+            photoInput.disabled = true;
+            submitButton.disabled = true;
+            submitButton.textContent = "✓ 접수 완료";
 
-                batch.set(
-                    privateRef,
-                    applicationData
-                );
+            resultBox.style.display = "block";
 
+            if (photoCopyBrands.includes(selectedBrandValue)) {
+                resultBox.innerHTML = `
+                    <strong>
+                        A/S 접수가 완료되었습니다.
+                    </strong>
 
-                const publicRef =
-                    doc(
-                        db,
-                        "asPublicStatus",
-                        receiptNumber
-                    );
+                    <br><br>
 
+                    접수번호<br>
 
-                batch.set(
-                    publicRef,
-                    {
+                    <span class="receipt-number">
+                        ${receiptNumber}
+                    </span>
 
-                        receiptNumber:
-                            receiptNumber,
+                    <br><br>
 
-                        brand:
-                            selectedBrandValue,
-
-                        product:
-                            product,
-
-                        status:
-                            "접수 완료",
-
-                        createdAt:
-                            serverTimestamp()
-
+                    ${
+                        copySuccess
+                        ? "✓ 신청 내용이 자동으로 복사되었습니다."
+                        : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
                     }
-                );
 
-
-                await batch.commit();
-
-
-                const copySuccess =
-                    await copyToClipboard(
-                        copiedText
-                    );
-
-
-                asForm
-                    .querySelectorAll(
-                        "input:not([type='file']), select, textarea"
-                    )
-                    .forEach(
-                        function (element) {
-
-                            element.disabled =
-                                true;
-
-                        }
-                    );
-
-
-                photoInput.disabled =
-                    true;
-
-
-                submitButton.disabled =
-                    true;
-
-                submitButton.textContent =
-                    "✓ 접수 완료";
-
-
-                resultBox.style.display =
-                    "block";
-
-
-                if (
-                    photoCopyBrands.includes(
-                        selectedBrandValue
-                    )
-                ) {
-
-                    resultBox.innerHTML = `
-
+                    <div class="paste-guide">
                         <strong>
-                            A/S 접수가 완료되었습니다.
+                            ${selectedBrandValue} 오픈카카오톡 전송 방법
                         </strong>
 
                         <br><br>
 
-                        접수번호<br>
-
-                        <span class="receipt-number">
-                            ${receiptNumber}
-                        </span>
+                        ① 아래
+                        <strong>
+                            ${selectedBrandValue} 오픈카카오톡 열기
+                        </strong>
+                        버튼을 누릅니다.
 
                         <br><br>
 
-                        ${
-                            copySuccess
-                            ? "✓ 신청 내용이 자동으로 복사되었습니다."
-                            : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
-                        }
+                        ② 카카오톡 메시지 입력창에서
+                        <strong>Ctrl + V</strong>
+                        를 눌러 신청내용을 붙여넣습니다.
 
-                        <div class="paste-guide">
+                        <br><br>
 
-                            <strong>
-                                ${selectedBrandValue} 오픈카카오톡 전송 방법
-                            </strong>
+                        ③ 다시 이 화면으로 돌아와
+                        <strong>사진 1 복사하기</strong>
+                        를 누릅니다.
 
-                            <br><br>
+                        <br><br>
 
-                            ① 아래
-                            <strong>
-                                ${selectedBrandValue} 오픈카카오톡 열기
-                            </strong>
-                            버튼을 누릅니다.
+                        ④ 카카오톡으로 돌아가
+                        <strong>Ctrl + V</strong>
+                        를 누르면 사진이 붙여넣어집니다.
 
-                            <br><br>
+                        <br><br>
 
-                            ② 카카오톡 메시지 입력창에서
-                            <strong>Ctrl + V</strong>
-                            를 눌러 신청내용을 붙여넣습니다.
+                        ⑤ 사진이 여러 장이면
+                        사진 2, 사진 3 순서로 반복합니다.
 
-                            <br><br>
+                        <br><br>
 
-                            ③ 다시 이 화면으로 돌아와
-                            <strong>사진 1 복사하기</strong>
-                            를 누릅니다.
+                        ⑥ 내용과 사진을 확인한 뒤 전송합니다.
+                    </div>
 
-                            <br><br>
-
-                            ④ 카카오톡으로 돌아가
-                            <strong>Ctrl + V</strong>
-                            를 누르면 사진이 붙여넣어집니다.
-
-                            <br><br>
-
-                            ⑤ 사진이 여러 장이면
-                            사진 2, 사진 3 순서로 반복합니다.
-
-                            <br><br>
-
-                            ⑥ 내용과 사진을 확인한 뒤 전송합니다.
-
-                        </div>
-
-                        <div class="photo-notice">
-
-                            📷 선택된 사진 :
-                            <strong>
-                                ${selectedPhotos.length}장
-                            </strong>
-
-                            <br>
-
-                            아래에 사진별 복사 버튼이 표시됩니다.
-
-                        </div>
-
-                    `;
-
-                } else {
-
-                    resultBox.innerHTML = `
-
+                    <div class="photo-notice">
+                        📷 선택된 사진 :
                         <strong>
-                            A/S 접수가 완료되었습니다.
+                            ${selectedPhotos.length}장
                         </strong>
 
-                        <br><br>
+                        <br>
 
-                        접수번호<br>
+                        아래에 사진별 복사 버튼이 표시됩니다.
+                    </div>
+                `;
+            } else {
+                resultBox.innerHTML = `
+                    <strong>
+                        A/S 접수가 완료되었습니다.
+                    </strong>
 
-                        <span class="receipt-number">
-                            ${receiptNumber}
-                        </span>
+                    <br><br>
 
-                        <br><br>
+                    접수번호<br>
 
-                        ${
-                            copySuccess
-                            ? "✓ 신청 내용이 자동으로 복사되었습니다."
-                            : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
-                        }
+                    <span class="receipt-number">
+                        ${receiptNumber}
+                    </span>
 
-                        <div class="paste-guide">
+                    <br><br>
 
-                            해당 업체 A/S 페이지 또는
-                            카카오톡 채널이 열리면
+                    ${
+                        copySuccess
+                        ? "✓ 신청 내용이 자동으로 복사되었습니다."
+                        : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
+                    }
 
-                            <br>
+                    <div class="paste-guide">
+                        해당 업체 A/S 페이지 또는
+                        카카오톡 채널이 열리면
 
-                            복사된 신청 내용을 붙여넣고
-                            필요한 경우 제품 사진을 첨부해주세요.
+                        <br>
 
-                        </div>
-
-                    `;
-
-                }
-
-
-                copyButton.style.display =
-                    "block";
-
-
-                createPhotoCopyButtons();
-
-
-                moveButton.style.display =
-                    "block";
-
-
-                moveButton.textContent =
-                    photoCopyBrands.includes(
-                        selectedBrandValue
-                    )
-                    ?
-                    selectedBrandValue +
-                    " 오픈카카오톡 열기"
-                    :
-                    selectedBrandValue +
-                    " A/S 접수 페이지 열기";
-
-
-                resultBox.scrollIntoView({
-
-                    behavior:
-                        "smooth",
-
-                    block:
-                        "start"
-
-                });
-
-
-            } catch (error) {
-
-                console.error(
-                    "A/S 접수 오류:",
-                    error
-                );
-
-
-                alert(
-                    "A/S 접수 중 오류가 발생했습니다.\n" +
-                    "잠시 후 다시 시도해주세요."
-                );
-
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.textContent =
-                    "A/S 접수하기";
-
+                        복사된 신청 내용을 붙여넣고
+                        필요한 경우 제품 사진을 첨부해주세요.
+                    </div>
+                `;
             }
 
-        }
-    );
+            copyButton.style.display = "block";
 
+            createPhotoCopyButtons();
+
+            moveButton.style.display = "block";
+
+            moveButton.textContent =
+                photoCopyBrands.includes(selectedBrandValue)
+                ? selectedBrandValue + " 오픈카카오톡 열기"
+                : selectedBrandValue + " A/S 접수 페이지 열기";
+
+            resultBox.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        } catch (error) {
+            console.error("A/S 접수 오류:", error);
+
+            alert(
+                "A/S 접수 중 오류가 발생했습니다.\n" +
+                "잠시 후 다시 시도해주세요."
+            );
+
+            submitButton.disabled = false;
+            submitButton.textContent = "A/S 접수하기";
+        }
+    });
 </script>
 
 </body>

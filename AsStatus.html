@@ -30,7 +30,6 @@
                 Roboto,
                 Arial,
                 sans-serif;
-
             background: #f4f6f8;
             color: #222;
         }
@@ -38,24 +37,17 @@
         header {
             width: 100%;
             padding: 22px 20px;
-
-            background: #ffffff;
+            background: #fff;
             border-bottom: 1px solid #e5e7eb;
-
             text-align: center;
-
-            box-shadow:
-                0 2px 10px
-                rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
         }
 
         header a {
             color: #082d5c;
-
             font-size: 27px;
             font-weight: 800;
             letter-spacing: 2px;
-
             text-decoration: none;
         }
 
@@ -66,15 +58,12 @@
         .status-container {
             width: calc(100% - 40px);
             max-width: 1180px;
-
             margin: 40px auto 70px;
         }
 
         .page-title {
             margin-bottom: 8px;
-
             color: #082d5c;
-
             font-size: 30px;
             font-weight: 800;
             text-align: center;
@@ -82,131 +71,89 @@
 
         .description {
             margin-bottom: 28px;
-
             color: #666;
-
             font-size: 14px;
             line-height: 1.7;
             text-align: center;
         }
 
-        /* =========================
-           상단 요약
-        ========================== */
-
+        /* 상단 요약 */
         .summary-area {
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
-
             margin-bottom: 20px;
         }
 
         .summary-card {
             padding: 20px;
-
             background: #fff;
-
             border: 1px solid #e5e7eb;
             border-radius: 14px;
-
             text-align: center;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
         .summary-label {
             margin-bottom: 7px;
-
             color: #777;
-
             font-size: 13px;
         }
 
         .summary-number {
             color: #123d70;
-
             font-size: 27px;
             font-weight: 800;
         }
 
-        .summary-card.received-card
-        .summary-number {
+        .summary-card.received-card .summary-number {
             color: #123d70;
         }
 
-        .summary-card.progress-card
-        .summary-number {
+        .summary-card.progress-card .summary-number {
             color: #c27803;
         }
 
-        .summary-card.complete-card
-        .summary-number {
+        .summary-card.complete-card .summary-number {
             color: #15803d;
         }
 
-        /* =========================
-           검색
-        ========================== */
-
+        /* 검색 */
         .toolbar {
             display: flex;
-
             gap: 10px;
-
             margin-bottom: 20px;
             padding: 16px;
-
             background: #fff;
-
             border: 1px solid #e5e7eb;
             border-radius: 14px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
         .search-input {
             flex: 1;
             min-width: 0;
-
             padding: 13px 14px;
-
             border: 1px solid #cfd5dd;
             border-radius: 9px;
-
             font-family: inherit;
             font-size: 14px;
-
             outline: none;
         }
 
         .search-input:focus {
             border-color: #123d70;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(18, 61, 112, 0.10);
+            box-shadow: 0 0 0 3px rgba(18, 61, 112, 0.10);
         }
 
         .toolbar button {
             min-width: 105px;
-
             padding: 12px 15px;
-
             border: none;
             border-radius: 9px;
-
             font-family: inherit;
             font-size: 14px;
             font-weight: 700;
-
             cursor: pointer;
         }
 
@@ -229,31 +176,21 @@
             color: #4b5563;
         }
 
-        /* =========================
-           로딩 / 오류
-        ========================== */
-
+        /* 로딩 / 오류 */
         .loading {
             padding: 35px;
-
             color: #666;
-
             text-align: center;
         }
 
         .error-box {
             display: none;
-
             margin-bottom: 20px;
             padding: 18px;
-
             background: #fff1f1;
-
             border: 1px solid #ffc4c4;
             border-radius: 10px;
-
             color: #b42318;
-
             font-size: 14px;
             line-height: 1.7;
             text-align: center;
@@ -261,59 +198,39 @@
 
         .no-result {
             display: none;
-
             padding: 40px 20px;
-
             background: #fff;
-
             border: 1px solid #e5e7eb;
             border-radius: 14px;
-
             color: #777;
-
             text-align: center;
         }
 
-        /* =========================
-           브랜드
-        ========================== */
-
+        /* 브랜드 */
         .brand-list {
             display: flex;
             flex-direction: column;
-
             gap: 12px;
         }
 
         .brand-section {
             overflow: hidden;
-
             background: #fff;
-
             border: 1px solid #dfe4ea;
             border-radius: 14px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
         }
 
         .brand-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             width: 100%;
-
             padding: 19px 20px;
-
             border: none;
-
             background: #fff;
             color: #222;
-
             font-family: inherit;
-
             cursor: pointer;
         }
 
@@ -324,44 +241,33 @@
         .brand-left {
             display: flex;
             align-items: center;
-
             gap: 12px;
         }
 
         .arrow {
             width: 20px;
-
             color: #123d70;
-
             font-size: 15px;
             font-weight: 900;
-
-            transition:
-                transform 0.2s ease;
+            transition: transform 0.2s ease;
         }
 
-        .brand-section.open
-        .arrow {
+        .brand-section.open .arrow {
             transform: rotate(90deg);
         }
 
         .brand-name {
             color: #082d5c;
-
             font-size: 17px;
             font-weight: 800;
         }
 
         .brand-count {
             min-width: 58px;
-
             padding: 6px 10px;
-
             background: #eef4fb;
             color: #123d70;
-
             border-radius: 20px;
-
             font-size: 13px;
             font-weight: 800;
             text-align: center;
@@ -369,22 +275,16 @@
 
         .brand-content {
             display: none;
-
             border-top: 1px solid #e5e7eb;
         }
 
-        .brand-section.open
-        .brand-content {
+        .brand-section.open .brand-content {
             display: block;
         }
 
-        /* =========================
-           접수건
-        ========================== */
-
+        /* 접수건 */
         .application-item {
-            border-bottom:
-                1px solid #edf0f3;
+            border-bottom: 1px solid #edf0f3;
         }
 
         .application-item:last-child {
@@ -393,29 +293,15 @@
 
         .application-summary {
             display: grid;
-
-            grid-template-columns:
-                1.55fr
-                0.9fr
-                1fr
-                1fr
-                0.9fr;
-
+            grid-template-columns: 1.55fr 0.9fr 1fr 1fr 0.9fr;
             align-items: center;
-
             gap: 12px;
-
             width: 100%;
-
             padding: 15px 20px;
-
             border: none;
-
             background: #fff;
-
             font-family: inherit;
             text-align: left;
-
             cursor: pointer;
         }
 
@@ -425,7 +311,6 @@
 
         .receipt-number {
             color: #123d70;
-
             font-size: 14px;
             font-weight: 800;
         }
@@ -436,25 +321,16 @@
 
         .item-value {
             color: #444;
-
             font-size: 13px;
-
             word-break: break-word;
         }
 
-        /* =========================
-           상태 뱃지
-        ========================== */
-
+        /* 상태 표시 */
         .status-badge {
             display: inline-block;
-
             width: fit-content;
-
             padding: 6px 10px;
-
             border-radius: 20px;
-
             font-size: 12px;
             font-weight: 800;
         }
@@ -474,87 +350,60 @@
             color: #15803d;
         }
 
-        /* =========================
-           상세정보
-        ========================== */
-
+        /* 상세정보 */
         .application-detail {
             display: none;
-
             padding: 22px;
-
             background: #f8fafc;
-
-            border-top:
-                1px solid #edf0f3;
+            border-top: 1px solid #edf0f3;
         }
 
-        .application-item.open
-        .application-detail {
+        .application-item.open .application-detail {
             display: block;
         }
 
         .detail-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px 25px;
         }
 
         .detail-row {
             padding: 11px 0;
-
-            border-bottom:
-                1px dashed #d7dce2;
+            border-bottom: 1px dashed #d7dce2;
         }
 
         .detail-label {
             margin-bottom: 5px;
-
             color: #777;
-
             font-size: 12px;
             font-weight: 700;
         }
 
         .detail-value {
             color: #222;
-
             font-size: 14px;
             line-height: 1.6;
-
             word-break: break-word;
         }
 
         .detail-full {
-            grid-column:
-                1 / -1;
+            grid-column: 1 / -1;
         }
 
-        /* =========================
-           진행상황
-        ========================== */
-
+        /* 진행상황 */
         .progress-area {
-            grid-column:
-                1 / -1;
-
+            grid-column: 1 / -1;
             margin-top: 12px;
             padding: 22px;
-
             background: #fff;
-
             border: 1px solid #e1e6ec;
             border-radius: 12px;
         }
 
         .progress-title {
             margin-bottom: 20px;
-
             color: #082d5c;
-
             font-size: 15px;
             font-weight: 800;
         }
@@ -562,32 +411,24 @@
         .progress-track {
             display: flex;
             align-items: flex-start;
-
             width: 100%;
-
             margin-bottom: 22px;
         }
 
         .progress-step {
             position: relative;
-
             flex: 1;
-
             text-align: center;
         }
 
         .progress-step:not(:last-child)::after {
             content: "";
-
             position: absolute;
             top: 13px;
             left: 50%;
-
             width: 100%;
             height: 3px;
-
             background: #d7dde5;
-
             z-index: 1;
         }
 
@@ -598,87 +439,62 @@
         .progress-dot {
             position: relative;
             z-index: 2;
-
             width: 28px;
             height: 28px;
-
             margin: 0 auto 8px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             background: #e2e6eb;
             color: #777;
-
             border-radius: 50%;
-
             font-size: 12px;
             font-weight: 800;
         }
 
-        .progress-step.done
-        .progress-dot {
+        .progress-step.done .progress-dot {
             background: #123d70;
             color: #fff;
         }
 
-        .progress-step.current
-        .progress-dot {
-            box-shadow:
-                0 0 0 5px
-                rgba(18, 61, 112, 0.12);
+        .progress-step.current .progress-dot {
+            box-shadow: 0 0 0 5px rgba(18, 61, 112, 0.12);
         }
 
         .progress-label {
             color: #777;
-
             font-size: 12px;
             font-weight: 700;
         }
 
-        .progress-step.done
-        .progress-label {
+        .progress-step.done .progress-label {
             color: #123d70;
         }
 
-        /* =========================
-           상태 변경 버튼
-        ========================== */
-
+        /* 상태 변경 버튼 */
         .status-change-title {
             margin-bottom: 10px;
-
             color: #555;
-
             font-size: 13px;
             font-weight: 700;
         }
 
         .status-buttons {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
         .status-button {
             padding: 12px 10px;
-
             border: 1px solid #d5dbe3;
             border-radius: 9px;
-
             background: #fff;
             color: #555;
-
             font-family: inherit;
             font-size: 13px;
             font-weight: 800;
-
             cursor: pointer;
-
             transition:
                 background 0.2s ease,
                 border-color 0.2s ease,
@@ -714,30 +530,20 @@
 
         .updated-text {
             margin-top: 12px;
-
             color: #888;
-
             font-size: 11px;
             text-align: right;
         }
 
-        /* =========================
-           하단
-        ========================== */
-
+        /* 하단 */
         .home-btn {
             display: block;
-
             width: 190px;
-
             margin: 30px auto 0;
             padding: 12px;
-
             background: #123d70;
             color: #fff;
-
             border-radius: 25px;
-
             text-align: center;
             text-decoration: none;
             font-weight: 700;
@@ -747,22 +553,15 @@
             background: #082d5c;
         }
 
-        /* =========================
-           반응형
-        ========================== */
-
+        /* 모바일 화면 */
         @media (max-width: 800px) {
-
             .status-container {
                 width: calc(100% - 20px);
-
-                margin:
-                    25px auto 50px;
+                margin: 25px auto 50px;
             }
 
             .summary-area {
-                grid-template-columns:
-                    repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .toolbar {
@@ -775,25 +574,19 @@
 
             .application-summary {
                 grid-template-columns: 1fr;
-
                 gap: 7px;
-
                 padding: 16px;
             }
 
             .application-summary > div {
                 display: flex;
-
                 gap: 8px;
             }
 
             .item-label {
                 display: inline;
-
                 min-width: 70px;
-
                 color: #888;
-
                 font-size: 12px;
                 font-weight: 700;
             }
@@ -810,7 +603,6 @@
             .status-buttons {
                 grid-template-columns: 1fr;
             }
-
         }
     </style>
 </head>
@@ -818,13 +610,10 @@
 <body>
 
 <header>
-
     <a href="Home.html">
         DNB <span>PARTNER</span>
     </a>
-
 </header>
-
 
 <main class="status-container">
 
@@ -832,83 +621,34 @@
         A/S 신청 현황
     </h1>
 
-
     <p class="description">
         브랜드별 A/S 접수 및 처리 현황을 확인할 수 있습니다.<br>
         접수건을 선택하면 상세정보와 진행상태를 확인할 수 있습니다.
     </p>
 
-
     <section class="summary-area">
-
         <div class="summary-card">
-
-            <div class="summary-label">
-                전체 접수
-            </div>
-
-            <div
-                class="summary-number"
-                id="totalCount"
-            >
-                0
-            </div>
-
+            <div class="summary-label">전체 접수</div>
+            <div class="summary-number" id="totalCount">0</div>
         </div>
-
 
         <div class="summary-card received-card">
-
-            <div class="summary-label">
-                접수완료
-            </div>
-
-            <div
-                class="summary-number"
-                id="receivedCount"
-            >
-                0
-            </div>
-
+            <div class="summary-label">접수완료</div>
+            <div class="summary-number" id="receivedCount">0</div>
         </div>
-
 
         <div class="summary-card progress-card">
-
-            <div class="summary-label">
-                진행중
-            </div>
-
-            <div
-                class="summary-number"
-                id="progressCount"
-            >
-                0
-            </div>
-
+            <div class="summary-label">진행중</div>
+            <div class="summary-number" id="progressCount">0</div>
         </div>
-
 
         <div class="summary-card complete-card">
-
-            <div class="summary-label">
-                처리완료
-            </div>
-
-            <div
-                class="summary-number"
-                id="completeCount"
-            >
-                0
-            </div>
-
+            <div class="summary-label">처리완료</div>
+            <div class="summary-number" id="completeCount">0</div>
         </div>
-
     </section>
 
-
     <section class="toolbar">
-
         <input
             type="text"
             class="search-input"
@@ -917,255 +657,120 @@
             autocomplete="off"
         >
 
-
         <button
             type="button"
             class="search-btn"
-            id="searchButton"
-        >
+            id="searchButton">
             검색
         </button>
-
 
         <button
             type="button"
             class="expand-btn"
-            id="expandAllButton"
-        >
+            id="expandAllButton">
             모두 펼치기
         </button>
-
 
         <button
             type="button"
             class="collapse-btn"
-            id="collapseAllButton"
-        >
+            id="collapseAllButton">
             모두 접기
         </button>
-
     </section>
 
+    <div class="error-box" id="errorBox"></div>
 
-    <div
-        class="error-box"
-        id="errorBox"
-    ></div>
-
-
-    <div
-        class="loading"
-        id="loading"
-    >
+    <div class="loading" id="loading">
         A/S 신청 내역을 불러오는 중입니다...
     </div>
 
+    <div class="brand-list" id="brandList"></div>
 
-    <div
-        class="brand-list"
-        id="brandList"
-    ></div>
-
-
-    <div
-        class="no-result"
-        id="noResult"
-    >
+    <div class="no-result" id="noResult">
         일치하는 A/S 신청 내역이 없습니다.
     </div>
 
-
-    <a
-        href="Home.html"
-        class="home-btn"
-    >
+    <a href="Home.html" class="home-btn">
         메인으로 돌아가기
     </a>
 
 </main>
 
-
 <script type="module">
-
     import "./firebase-config.js";
-
 
     import {
         getApp
-    }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
     import {
         getAuth,
         onAuthStateChanged
-    }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
-
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
     import {
         getFirestore,
         collection,
         getDocs,
         doc,
-        updateDoc,
+        writeBatch,
         serverTimestamp
-    }
-    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+    } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
+    const app = getApp();
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const app =
-        getApp();
+    const brandList = document.getElementById("brandList");
+    const loading = document.getElementById("loading");
+    const errorBox = document.getElementById("errorBox");
+    const noResult = document.getElementById("noResult");
 
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+    const expandAllButton = document.getElementById("expandAllButton");
+    const collapseAllButton = document.getElementById("collapseAllButton");
 
-    const auth =
-        getAuth(app);
-
-
-    const db =
-        getFirestore(app);
-
-
-    const brandList =
-        document.getElementById(
-            "brandList"
-        );
-
-
-    const loading =
-        document.getElementById(
-            "loading"
-        );
-
-
-    const errorBox =
-        document.getElementById(
-            "errorBox"
-        );
-
-
-    const noResult =
-        document.getElementById(
-            "noResult"
-        );
-
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
-
-    const searchButton =
-        document.getElementById(
-            "searchButton"
-        );
-
-
-    const expandAllButton =
-        document.getElementById(
-            "expandAllButton"
-        );
-
-
-    const collapseAllButton =
-        document.getElementById(
-            "collapseAllButton"
-        );
-
-
-    const totalCount =
-        document.getElementById(
-            "totalCount"
-        );
-
-
-    const receivedCount =
-        document.getElementById(
-            "receivedCount"
-        );
-
-
-    const progressCount =
-        document.getElementById(
-            "progressCount"
-        );
-
-
-    const completeCount =
-        document.getElementById(
-            "completeCount"
-        );
-
+    const totalCount = document.getElementById("totalCount");
+    const receivedCount = document.getElementById("receivedCount");
+    const progressCount = document.getElementById("progressCount");
+    const completeCount = document.getElementById("completeCount");
 
     let applications = [];
 
-
     const brandOrder = [
-
         "아메리칸 스탠다드",
-
         "더죤(필로토)",
-
         "폰타나",
-
         "에떼르노",
-
         "리델",
-
         "힘펠",
-
         "베르사츠(인토)",
-
         "라우체(화신)",
-
         "대림바스",
-
         "히든바스",
-
         "카비원",
-
         "스파이더",
-
         "도비도스",
-
         "트렌드주식회사"
-
     ];
 
-
-    onAuthStateChanged(
-        auth,
-        async function (user) {
-
-            if (!user) {
-
-                window.location.replace(
-                    "index.html"
-                );
-
-                return;
-
-            }
-
-
-            await loadApplications();
-
+    /* 로그인 확인 */
+    onAuthStateChanged(auth, async function (user) {
+        if (!user) {
+            window.location.replace("index.html");
+            return;
         }
-    );
 
+        await loadApplications();
+    });
 
+    /* 화면에 표시할 문자 처리 */
     function escapeHtml(value) {
-
-        if (
-            value === undefined ||
-            value === null
-        ) {
-
+        if (value === undefined || value === null) {
             return "";
-
         }
-
 
         return String(value)
             .replaceAll("&", "&amp;")
@@ -1173,1120 +778,489 @@
             .replaceAll(">", "&gt;")
             .replaceAll('"', "&quot;")
             .replaceAll("'", "&#039;");
-
     }
 
-
+    /* 상태 이름 통일 */
     function normalizeStatus(status) {
-
-        const value =
-            String(
-                status ||
-                ""
-            )
+        const value = String(status || "")
             .replace(/\s/g, "")
             .toLowerCase();
 
-
-        if (
-            value === "진행중" ||
-            value === "처리중"
-        ) {
-
+        if (value === "진행중" || value === "처리중") {
             return "진행중";
-
         }
 
-
-        if (
-            value === "처리완료" ||
-            value === "완료"
-        ) {
-
+        if (value === "처리완료" || value === "완료") {
             return "처리완료";
-
         }
-
 
         return "접수완료";
-
     }
-
 
     function getStatusClass(status) {
+        const normalized = normalizeStatus(status);
 
-        const normalized =
-            normalizeStatus(status);
-
-
-        if (
-            normalized ===
-            "진행중"
-        ) {
-
+        if (normalized === "진행중") {
             return "status-progress";
-
         }
 
-
-        if (
-            normalized ===
-            "처리완료"
-        ) {
-
+        if (normalized === "처리완료") {
             return "status-complete";
-
         }
-
 
         return "status-received";
-
     }
-
 
     function getStatusLevel(status) {
+        const normalized = normalizeStatus(status);
 
-        const normalized =
-            normalizeStatus(status);
-
-
-        if (
-            normalized ===
-            "처리완료"
-        ) {
-
+        if (normalized === "처리완료") {
             return 3;
-
         }
 
-
-        if (
-            normalized ===
-            "진행중"
-        ) {
-
+        if (normalized === "진행중") {
             return 2;
-
         }
-
 
         return 1;
-
     }
 
-
+    /* 날짜 표시 */
     function formatDate(timestamp) {
-
         if (!timestamp) {
-
             return "-";
-
         }
-
 
         try {
+            const date = timestamp.toDate
+                ? timestamp.toDate()
+                : new Date(timestamp);
 
-            const date =
-                timestamp.toDate
-                ?
-                timestamp.toDate()
-                :
-                new Date(timestamp);
-
-
-            return date.toLocaleDateString(
-                "ko-KR",
-                {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit"
-                }
-            );
-
+            return date.toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            });
         } catch (error) {
-
             return "-";
-
         }
-
     }
-
 
     function formatDateTime(timestamp) {
-
         if (!timestamp) {
-
             return "-";
-
         }
-
 
         try {
+            const date = timestamp.toDate
+                ? timestamp.toDate()
+                : new Date(timestamp);
 
-            const date =
-                timestamp.toDate
-                ?
-                timestamp.toDate()
-                :
-                new Date(timestamp);
-
-
-            return date.toLocaleString(
-                "ko-KR",
-                {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
-
+            return date.toLocaleString("ko-KR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
         } catch (error) {
-
             return "-";
-
         }
-
     }
 
-
+    /* 고객명 일부 가리기 */
     function maskName(name) {
-
         if (!name) {
-
             return "-";
-
         }
 
+        const text = String(name);
 
-        const text =
-            String(name);
-
-
-        if (
-            text.length === 1
-        ) {
-
+        if (text.length === 1) {
             return text;
-
         }
 
-
-        if (
-            text.length === 2
-        ) {
-
-            return (
-                text[0] +
-                "○"
-            );
-
+        if (text.length === 2) {
+            return text[0] + "○";
         }
-
 
         return (
             text[0] +
-            "○".repeat(
-                text.length - 2
-            ) +
-            text[
-                text.length - 1
-            ]
+            "○".repeat(text.length - 2) +
+            text[text.length - 1]
         );
-
     }
 
-
+    /* 연락처 일부 가리기 */
     function maskPhone(phone) {
-
         if (!phone) {
-
             return "-";
-
         }
 
+        const numbers = String(phone).replace(/\D/g, "");
 
-        const numbers =
-            String(phone)
-                .replace(
-                    /\D/g,
-                    ""
-                );
-
-
-        if (
-            numbers.length === 11
-        ) {
-
+        if (numbers.length === 11) {
             return (
-                numbers.slice(
-                    0,
-                    3
-                ) +
+                numbers.slice(0, 3) +
                 "-****-" +
-                numbers.slice(
-                    7
-                )
+                numbers.slice(7)
             );
-
         }
 
-
-        if (
-            numbers.length >= 9
-        ) {
-
+        if (numbers.length >= 9) {
             return (
-                numbers.slice(
-                    0,
-                    3
-                ) +
+                numbers.slice(0, 3) +
                 "-****-" +
-                numbers.slice(
-                    -4
-                )
+                numbers.slice(-4)
             );
-
         }
-
 
         return String(phone);
-
     }
 
-
+    /* 신청 내역 불러오기 */
     async function loadApplications() {
-
         try {
+            loading.style.display = "block";
+            errorBox.style.display = "none";
 
-            loading.style.display =
-                "block";
-
-
-            errorBox.style.display =
-                "none";
-
-
-            const snapshot =
-                await getDocs(
-                    collection(
-                        db,
-                        "asApplications"
-                    )
-                );
-
+            const snapshot = await getDocs(
+                collection(db, "asApplications")
+            );
 
             applications = [];
 
+            snapshot.forEach(function (document) {
+                applications.push({
+                    id: document.id,
+                    ...document.data()
+                });
+            });
 
-            snapshot.forEach(
-                function (document) {
+            applications.sort(function (a, b) {
+                const timeA = a.createdAt?.seconds || 0;
+                const timeB = b.createdAt?.seconds || 0;
 
-                    applications.push({
+                return timeB - timeA;
+            });
 
-                        id:
-                            document.id,
+            loading.style.display = "none";
 
-                        ...document.data()
-
-                    });
-
-                }
-            );
-
-
-            applications.sort(
-                function (a, b) {
-
-                    const timeA =
-                        a.createdAt?.seconds ||
-                        0;
-
-
-                    const timeB =
-                        b.createdAt?.seconds ||
-                        0;
-
-
-                    return (
-                        timeB -
-                        timeA
-                    );
-
-                }
-            );
-
-
-            loading.style.display =
-                "none";
-
-
-            updateSummary(
-                applications
-            );
-
-
-            renderBrands(
-                applications,
-                ""
-            );
-
-
+            updateSummary(applications);
+            renderBrands(applications, "");
         } catch (error) {
+            console.error("A/S 현황 불러오기 오류:", error);
 
-            console.error(
-                "A/S 현황 불러오기 오류:",
-                error
-            );
+            loading.style.display = "none";
+            errorBox.style.display = "block";
 
-
-            loading.style.display =
-                "none";
-
-
-            errorBox.style.display =
-                "block";
-
-
-            if (
-                error.code ===
-                "permission-denied"
-            ) {
-
+            if (error.code === "permission-denied") {
                 errorBox.innerHTML =
-                    "A/S 신청 현황을 조회할 권한이 없습니다.<br>관리자 계정으로 로그인해주세요.";
-
+                    "A/S 신청 현황을 조회할 권한이 없습니다.<br>" +
+                    "관리자 계정으로 로그인해주세요.";
             } else {
-
                 errorBox.textContent =
                     "A/S 신청 현황을 불러오지 못했습니다.";
-
             }
-
         }
-
     }
 
-
+    /* 상단 접수 건수 */
     function updateSummary(list) {
+        totalCount.textContent = list.length;
 
-        totalCount.textContent =
-            list.length;
+        receivedCount.textContent = list.filter(function (item) {
+            return normalizeStatus(item.status) === "접수완료";
+        }).length;
 
+        progressCount.textContent = list.filter(function (item) {
+            return normalizeStatus(item.status) === "진행중";
+        }).length;
 
-        receivedCount.textContent =
-            list.filter(
-                function (item) {
-
-                    return (
-                        normalizeStatus(
-                            item.status
-                        ) ===
-                        "접수완료"
-                    );
-
-                }
-            ).length;
-
-
-        progressCount.textContent =
-            list.filter(
-                function (item) {
-
-                    return (
-                        normalizeStatus(
-                            item.status
-                        ) ===
-                        "진행중"
-                    );
-
-                }
-            ).length;
-
-
-        completeCount.textContent =
-            list.filter(
-                function (item) {
-
-                    return (
-                        normalizeStatus(
-                            item.status
-                        ) ===
-                        "처리완료"
-                    );
-
-                }
-            ).length;
-
+        completeCount.textContent = list.filter(function (item) {
+            return normalizeStatus(item.status) === "처리완료";
+        }).length;
     }
 
-
+    /* 검색 */
     function getFilteredApplications(keyword) {
-
-        const normalized =
-            keyword
-                .trim()
-                .toLowerCase();
-
+        const normalized = keyword.trim().toLowerCase();
 
         if (!normalized) {
-
             return applications;
-
         }
 
+        return applications.filter(function (item) {
+            const searchable = [
+                item.receiptNumber,
+                item.customerName,
+                item.phone,
+                item.brand,
+                item.product,
+                item.address,
+                item.content,
+                normalizeStatus(item.status)
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
 
-        return applications.filter(
-            function (item) {
-
-                const searchable =
-                    [
-
-                        item.receiptNumber,
-
-                        item.customerName,
-
-                        item.phone,
-
-                        item.brand,
-
-                        item.product,
-
-                        item.address,
-
-                        item.content,
-
-                        normalizeStatus(
-                            item.status
-                        )
-
-                    ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
-
-
-                return searchable.includes(
-                    normalized
-                );
-
-            }
-        );
-
+            return searchable.includes(normalized);
+        });
     }
 
-
+    /* 브랜드별로 묶기 */
     function groupByBrand(list) {
-
         const groups = {};
 
+        list.forEach(function (item) {
+            const brand = item.brand || "기타";
 
-        list.forEach(
-            function (item) {
-
-                const brand =
-                    item.brand ||
-                    "기타";
-
-
-                if (
-                    !groups[brand]
-                ) {
-
-                    groups[brand] =
-                        [];
-
-                }
-
-
-                groups[brand].push(
-                    item
-                );
-
+            if (!groups[brand]) {
+                groups[brand] = [];
             }
-        );
 
+            groups[brand].push(item);
+        });
 
         return groups;
-
     }
-
 
     function getSortedBrands(groups) {
+        const existingBrands = Object.keys(groups);
 
-        const existingBrands =
-            Object.keys(
-                groups
-            );
+        const known = brandOrder.filter(function (brand) {
+            return existingBrands.includes(brand);
+        });
 
+        const unknown = existingBrands.filter(function (brand) {
+            return !brandOrder.includes(brand);
+        });
 
-        const known =
-            brandOrder.filter(
-                function (brand) {
+        unknown.sort(function (a, b) {
+            return a.localeCompare(b, "ko");
+        });
 
-                    return existingBrands.includes(
-                        brand
-                    );
-
-                }
-            );
-
-
-        const unknown =
-            existingBrands.filter(
-                function (brand) {
-
-                    return !brandOrder.includes(
-                        brand
-                    );
-
-                }
-            );
-
-
-        unknown.sort(
-            function (a, b) {
-
-                return a.localeCompare(
-                    b,
-                    "ko"
-                );
-
-            }
-        );
-
-
-        return [
-            ...known,
-            ...unknown
-        ];
-
+        return [...known, ...unknown];
     }
 
+    /* 브랜드 목록 표시 */
+    function renderBrands(list, keyword = "") {
+        brandList.innerHTML = "";
+        noResult.style.display = "none";
 
-    function renderBrands(
-        list,
-        keyword = ""
-    ) {
-
-        brandList.innerHTML =
-            "";
-
-
-        noResult.style.display =
-            "none";
-
-
-        if (
-            list.length === 0
-        ) {
-
-            noResult.style.display =
-                "block";
-
+        if (list.length === 0) {
+            noResult.style.display = "block";
             return;
-
         }
 
+        const groups = groupByBrand(list);
+        const brands = getSortedBrands(groups);
 
-        const groups =
-            groupByBrand(
-                list
-            );
+        brands.forEach(function (brand) {
+            const items = groups[brand];
 
+            const section = document.createElement("section");
+            section.className = "brand-section";
 
-        const brands =
-            getSortedBrands(
-                groups
-            );
-
-
-        brands.forEach(
-            function (brand) {
-
-                const items =
-                    groups[brand];
-
-
-                const section =
-                    document.createElement(
-                        "section"
-                    );
-
-
-                section.className =
-                    "brand-section";
-
-
-                if (
-                    keyword.trim()
-                ) {
-
-                    section.classList.add(
-                        "open"
-                    );
-
-                }
-
-
-                const header =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                header.type =
-                    "button";
-
-
-                header.className =
-                    "brand-header";
-
-
-                header.innerHTML = `
-
-                    <div class="brand-left">
-
-                        <span class="arrow">
-                            ▶
-                        </span>
-
-                        <span class="brand-name">
-                            ${escapeHtml(brand)}
-                        </span>
-
-                    </div>
-
-                    <span class="brand-count">
-                        ${items.length}건
-                    </span>
-
-                `;
-
-
-                const content =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                content.className =
-                    "brand-content";
-
-
-                items.forEach(
-                    function (item) {
-
-                        content.appendChild(
-                            createApplicationItem(
-                                item
-                            )
-                        );
-
-                    }
-                );
-
-
-                header.addEventListener(
-                    "click",
-                    function () {
-
-                        section.classList.toggle(
-                            "open"
-                        );
-
-                    }
-                );
-
-
-                section.appendChild(
-                    header
-                );
-
-
-                section.appendChild(
-                    content
-                );
-
-
-                brandList.appendChild(
-                    section
-                );
-
+            if (keyword.trim()) {
+                section.classList.add("open");
             }
-        );
 
+            const header = document.createElement("button");
+            header.type = "button";
+            header.className = "brand-header";
+
+            header.innerHTML = `
+                <div class="brand-left">
+                    <span class="arrow">▶</span>
+                    <span class="brand-name">
+                        ${escapeHtml(brand)}
+                    </span>
+                </div>
+
+                <span class="brand-count">
+                    ${items.length}건
+                </span>
+            `;
+
+            const content = document.createElement("div");
+            content.className = "brand-content";
+
+            items.forEach(function (item) {
+                content.appendChild(createApplicationItem(item));
+            });
+
+            header.addEventListener("click", function () {
+                section.classList.toggle("open");
+            });
+
+            section.appendChild(header);
+            section.appendChild(content);
+            brandList.appendChild(section);
+        });
     }
 
-
+    /* 진행 단계 표시 */
     function createProgressHtml(status) {
-
-        const level =
-            getStatusLevel(
-                status
-            );
-
+        const level = getStatusLevel(status);
 
         return `
-
             <div class="progress-track">
-
-                <div
-                    class="
-                        progress-step
-                        ${level >= 1 ? "done" : ""}
-                        ${level === 1 ? "current" : ""}
-                    "
-                >
-
-                    <div class="progress-dot">
-                        1
-                    </div>
-
-                    <div class="progress-label">
-                        접수완료
-                    </div>
-
+                <div class="
+                    progress-step
+                    ${level >= 1 ? "done" : ""}
+                    ${level === 1 ? "current" : ""}
+                ">
+                    <div class="progress-dot">1</div>
+                    <div class="progress-label">접수완료</div>
                 </div>
 
-
-                <div
-                    class="
-                        progress-step
-                        ${level >= 2 ? "done" : ""}
-                        ${level === 2 ? "current" : ""}
-                    "
-                >
-
-                    <div class="progress-dot">
-                        2
-                    </div>
-
-                    <div class="progress-label">
-                        진행중
-                    </div>
-
+                <div class="
+                    progress-step
+                    ${level >= 2 ? "done" : ""}
+                    ${level === 2 ? "current" : ""}
+                ">
+                    <div class="progress-dot">2</div>
+                    <div class="progress-label">진행중</div>
                 </div>
 
-
-                <div
-                    class="
-                        progress-step
-                        ${level >= 3 ? "done" : ""}
-                        ${level === 3 ? "current" : ""}
-                    "
-                >
-
-                    <div class="progress-dot">
-                        3
-                    </div>
-
-                    <div class="progress-label">
-                        처리완료
-                    </div>
-
+                <div class="
+                    progress-step
+                    ${level >= 3 ? "done" : ""}
+                    ${level === 3 ? "current" : ""}
+                ">
+                    <div class="progress-dot">3</div>
+                    <div class="progress-label">처리완료</div>
                 </div>
-
             </div>
-
         `;
-
     }
 
-
+    /* 신청 내역 한 건 표시 */
     function createApplicationItem(item) {
+        const wrapper = document.createElement("article");
+        wrapper.className = "application-item";
 
-        const wrapper =
-            document.createElement(
-                "article"
-            );
+        const summary = document.createElement("button");
+        summary.type = "button";
+        summary.className = "application-summary";
 
-
-        wrapper.className =
-            "application-item";
-
-
-        const summary =
-            document.createElement(
-                "button"
-            );
-
-
-        summary.type =
-            "button";
-
-
-        summary.className =
-            "application-summary";
-
-
-        const currentStatus =
-            normalizeStatus(
-                item.status
-            );
-
+        const currentStatus = normalizeStatus(item.status);
 
         summary.innerHTML = `
-
             <div>
-
-                <span class="item-label">
-                    접수번호
-                </span>
-
+                <span class="item-label">접수번호</span>
                 <span class="receipt-number">
-                    ${escapeHtml(
-                        item.receiptNumber ||
-                        "-"
-                    )}
+                    ${escapeHtml(item.receiptNumber || "-")}
                 </span>
-
             </div>
 
-
             <div>
-
-                <span class="item-label">
-                    접수일
-                </span>
-
+                <span class="item-label">접수일</span>
                 <span class="item-value">
-                    ${formatDate(
-                        item.createdAt
-                    )}
+                    ${formatDate(item.createdAt)}
                 </span>
-
             </div>
 
-
             <div>
-
-                <span class="item-label">
-                    제품
-                </span>
-
+                <span class="item-label">제품</span>
                 <span class="item-value">
-                    ${escapeHtml(
-                        item.product ||
-                        "-"
-                    )}
+                    ${escapeHtml(item.product || "-")}
                 </span>
-
             </div>
 
-
             <div>
-
-                <span class="item-label">
-                    고객
-                </span>
-
+                <span class="item-label">고객</span>
                 <span class="item-value">
-                    ${escapeHtml(
-                        maskName(
-                            item.customerName
-                        )
-                    )}
+                    ${escapeHtml(maskName(item.customerName))}
                 </span>
-
             </div>
 
-
             <div>
-
-                <span class="item-label">
-                    상태
-                </span>
-
-                <span
-                    class="
-                        status-badge
-                        ${getStatusClass(
-                            currentStatus
-                        )}
-                    "
-                >
+                <span class="item-label">상태</span>
+                <span class="status-badge ${getStatusClass(currentStatus)}">
                     ${currentStatus}
                 </span>
-
             </div>
-
         `;
 
-
-        const detail =
-            document.createElement(
-                "div"
-            );
-
-
-        detail.className =
-            "application-detail";
-
+        const detail = document.createElement("div");
+        detail.className = "application-detail";
 
         detail.innerHTML = `
-
             <div class="detail-grid">
 
+                <div class="detail-row">
+                    <div class="detail-label">접수번호</div>
+                    <div class="detail-value">
+                        ${escapeHtml(item.receiptNumber || "-")}
+                    </div>
+                </div>
 
                 <div class="detail-row">
-
-                    <div class="detail-label">
-                        접수번호
-                    </div>
-
+                    <div class="detail-label">브랜드</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            item.receiptNumber ||
-                            "-"
-                        )}
+                        ${escapeHtml(item.brand || "-")}
                     </div>
-
                 </div>
-
 
                 <div class="detail-row">
-
-                    <div class="detail-label">
-                        브랜드
-                    </div>
-
+                    <div class="detail-label">고객명</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            item.brand ||
-                            "-"
-                        )}
+                        ${escapeHtml(maskName(item.customerName))}
                     </div>
-
                 </div>
-
 
                 <div class="detail-row">
-
-                    <div class="detail-label">
-                        고객명
-                    </div>
-
+                    <div class="detail-label">연락처</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            maskName(
-                                item.customerName
-                            )
-                        )}
+                        ${escapeHtml(maskPhone(item.phone))}
                     </div>
-
                 </div>
-
 
                 <div class="detail-row">
-
-                    <div class="detail-label">
-                        연락처
-                    </div>
-
+                    <div class="detail-label">제품명</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            maskPhone(
-                                item.phone
-                            )
-                        )}
+                        ${escapeHtml(item.product || "-")}
                     </div>
-
                 </div>
-
 
                 <div class="detail-row">
-
-                    <div class="detail-label">
-                        제품명
-                    </div>
-
+                    <div class="detail-label">접수일</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            item.product ||
-                            "-"
-                        )}
+                        ${formatDateTime(item.createdAt)}
                     </div>
-
                 </div>
 
-
-                <div class="detail-row">
-
-                    <div class="detail-label">
-                        접수일
-                    </div>
-
+                <div class="detail-row detail-full">
+                    <div class="detail-label">주소</div>
                     <div class="detail-value">
-                        ${formatDateTime(
-                            item.createdAt
-                        )}
+                        ${escapeHtml(item.address || "-")}
                     </div>
-
                 </div>
 
-
-                <div class="
-                    detail-row
-                    detail-full
-                ">
-
-                    <div class="detail-label">
-                        주소
-                    </div>
-
+                <div class="detail-row detail-full">
+                    <div class="detail-label">A/S 내용</div>
                     <div class="detail-value">
-                        ${escapeHtml(
-                            item.address ||
-                            "-"
-                        )}
+                        ${escapeHtml(item.content || "-")}
                     </div>
-
                 </div>
-
-
-                <div class="
-                    detail-row
-                    detail-full
-                ">
-
-                    <div class="detail-label">
-                        A/S 내용
-                    </div>
-
-                    <div class="detail-value">
-                        ${escapeHtml(
-                            item.content ||
-                            "-"
-                        )}
-                    </div>
-
-                </div>
-
 
                 <div class="progress-area">
-
                     <div class="progress-title">
                         A/S 진행 상황
                     </div>
 
-                    <div
-                        class="progress-container"
-                    >
-                        ${createProgressHtml(
-                            currentStatus
-                        )}
+                    <div class="progress-container">
+                        ${createProgressHtml(currentStatus)}
                     </div>
-
 
                     <div class="status-change-title">
                         진행 상태 변경
                     </div>
 
-
                     <div class="status-buttons">
-
                         <button
                             type="button"
                             class="
@@ -2294,17 +1268,13 @@
                                 received-status-button
                                 ${
                                     currentStatus === "접수완료"
-                                    ?
-                                    "active-received"
-                                    :
-                                    ""
+                                    ? "active-received"
+                                    : ""
                                 }
                             "
-                            data-status="접수완료"
-                        >
+                            data-status="접수완료">
                             접수완료
                         </button>
-
 
                         <button
                             type="button"
@@ -2313,17 +1283,13 @@
                                 progress-status-button
                                 ${
                                     currentStatus === "진행중"
-                                    ?
-                                    "active-progress"
-                                    :
-                                    ""
+                                    ? "active-progress"
+                                    : ""
                                 }
                             "
-                            data-status="진행중"
-                        >
+                            data-status="진행중">
                             진행중
                         </button>
-
 
                         <button
                             type="button"
@@ -2332,370 +1298,195 @@
                                 complete-status-button
                                 ${
                                     currentStatus === "처리완료"
-                                    ?
-                                    "active-complete"
-                                    :
-                                    ""
+                                    ? "active-complete"
+                                    : ""
                                 }
                             "
-                            data-status="처리완료"
-                        >
+                            data-status="처리완료">
                             처리완료
                         </button>
-
                     </div>
-
 
                     <div class="updated-text">
-
                         ${
                             item.updatedAt
-                            ?
-                            "마지막 변경 : " +
-                            formatDateTime(
-                                item.updatedAt
-                            )
-                            :
-                            ""
+                            ? "마지막 변경 : " + formatDateTime(item.updatedAt)
+                            : ""
                         }
-
                     </div>
-
                 </div>
 
-
             </div>
-
         `;
 
+        summary.addEventListener("click", function () {
+            wrapper.classList.toggle("open");
+        });
 
-        summary.addEventListener(
-            "click",
-            function () {
+        const statusButtons = detail.querySelectorAll(".status-button");
 
-                wrapper.classList.toggle(
-                    "open"
-                );
+        statusButtons.forEach(function (button) {
+            button.addEventListener("click", async function () {
+                const newStatus = button.dataset.status;
 
-            }
-        );
+                await changeStatus(item, newStatus, wrapper);
+            });
+        });
 
-
-        const statusButtons =
-            detail.querySelectorAll(
-                ".status-button"
-            );
-
-
-        statusButtons.forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    async function () {
-
-                        const newStatus =
-                            button.dataset.status;
-
-
-                        await changeStatus(
-                            item,
-                            newStatus,
-                            wrapper
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-        wrapper.appendChild(
-            summary
-        );
-
-
-        wrapper.appendChild(
-            detail
-        );
-
+        wrapper.appendChild(summary);
+        wrapper.appendChild(detail);
 
         return wrapper;
-
     }
 
+    /* 관리용 기록과 조회용 기록의 상태를 함께 변경 */
+    async function changeStatus(item, newStatus, wrapper) {
+        const currentStatus = normalizeStatus(item.status);
 
-    async function changeStatus(
-        item,
-        newStatus,
-        wrapper
-    ) {
+        if (currentStatus === newStatus) {
+            return;
+        }
 
-        const currentStatus =
-            normalizeStatus(
-                item.status
-            );
-
+        if (!["접수완료", "진행중", "처리완료"].includes(newStatus)) {
+            alert("올바른 진행 상태를 선택해주세요.");
+            return;
+        }
 
         if (
-            currentStatus ===
-            newStatus
+            typeof item.receiptNumber !== "string" ||
+            !item.receiptNumber.trim() ||
+            item.receiptNumber.includes("/")
         ) {
-
+            alert("접수번호를 확인할 수 없어 상태를 변경하지 못했습니다.");
             return;
-
         }
 
+        const buttons = wrapper.querySelectorAll(".status-button");
 
-        const buttons =
-            wrapper.querySelectorAll(
-                ".status-button"
-            );
-
-
-        buttons.forEach(
-            function (button) {
-
-                button.disabled =
-                    true;
-
-            }
-        );
-
+        buttons.forEach(function (button) {
+            button.disabled = true;
+        });
 
         try {
-
-            const applicationRef =
-                doc(
-                    db,
-                    "asApplications",
-                    item.id
-                );
-
-
-            await updateDoc(
-                applicationRef,
-                {
-
-                    status:
-                        newStatus,
-
-                    updatedAt:
-                        serverTimestamp()
-
-                }
+            const applicationRef = doc(
+                db,
+                "asApplications",
+                item.id
             );
 
-
-            item.status =
-                newStatus;
-
-
-            item.updatedAt =
-                new Date();
-
-
-            updateSummary(
-                applications
+            const publicRef = doc(
+                db,
+                "asPublicStatus",
+                item.receiptNumber
             );
 
+            const batch = writeBatch(db);
+            const updatedAt = serverTimestamp();
 
-            const keyword =
-                searchInput.value;
+            // 관리용 기록과 조회용 기록을 한 번에 저장합니다.
+            batch.update(applicationRef, {
+                status: newStatus,
+                updatedAt: updatedAt
+            });
 
+            // 조회용 기록에는 아래 항목만 저장합니다.
+            const publicData = {
+                receiptNumber: item.receiptNumber,
+                brand: item.brand || "",
+                product: item.product || "",
+                status: newStatus,
+                updatedAt: updatedAt
+            };
 
-            const filtered =
-                getFilteredApplications(
-                    keyword
-                );
+            if (item.createdAt) {
+                publicData.createdAt = item.createdAt;
+            }
 
+            batch.set(publicRef, publicData, { merge: true });
 
-            renderBrands(
-                filtered,
-                keyword
-            );
-
-
-            alert(
-                "A/S 진행 상태가 '" +
-                newStatus +
-                "'으로 변경되었습니다."
-            );
-
-
+            // 두 기록이 모두 저장된 뒤 화면에 반영합니다.
+            await batch.commit();
         } catch (error) {
+            console.error("상태 변경 오류:", error);
 
-            console.error(
-                "상태 변경 오류:",
-                error
-            );
-
-
-            if (
-                error.code ===
-                "permission-denied"
-            ) {
-
+            if (error.code === "permission-denied") {
                 alert(
-                    "상태 변경 권한이 없습니다.\n관리자 계정과 Firebase 규칙을 확인해주세요."
+                    "상태를 변경할 권한이 없습니다.\n" +
+                    "관리자 계정과 두 기록의 저장 권한을 확인해주세요."
                 );
-
             } else {
-
                 alert(
-                    "상태 변경 중 오류가 발생했습니다."
+                    "상태를 저장하지 못했습니다. 잠시 후 다시 시도해주세요."
                 );
-
             }
 
+            buttons.forEach(function (button) {
+                button.disabled = false;
+            });
 
-            buttons.forEach(
-                function (button) {
-
-                    button.disabled =
-                        false;
-
-                }
-            );
-
+            return;
         }
 
+        item.status = newStatus;
+        item.updatedAt = new Date();
+
+        const keyword = searchInput.value;
+        const filtered = getFilteredApplications(keyword);
+
+        updateSummary(filtered);
+        renderBrands(filtered, keyword);
+
+        alert(
+            "A/S 진행 상태가 '" +
+            newStatus +
+            "'으로 변경되었습니다."
+        );
     }
 
-
+    /* 검색 실행 */
     function executeSearch() {
+        const keyword = searchInput.value;
+        const filtered = getFilteredApplications(keyword);
 
-        const keyword =
-            searchInput.value;
-
-
-        const filtered =
-            getFilteredApplications(
-                keyword
-            );
-
-
-        updateSummary(
-            filtered
-        );
-
-
-        renderBrands(
-            filtered,
-            keyword
-        );
-
+        updateSummary(filtered);
+        renderBrands(filtered, keyword);
     }
 
+    searchButton.addEventListener("click", executeSearch);
 
-    searchButton.addEventListener(
-        "click",
-        executeSearch
-    );
-
-
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key ===
-                "Enter"
-            ) {
-
-                executeSearch();
-
-            }
-
+    searchInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            executeSearch();
         }
-    );
+    });
 
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            if (
-                searchInput
-                    .value
-                    .trim() === ""
-            ) {
-
-                updateSummary(
-                    applications
-                );
-
-
-                renderBrands(
-                    applications,
-                    ""
-                );
-
-            }
-
+    searchInput.addEventListener("input", function () {
+        if (searchInput.value.trim() === "") {
+            updateSummary(applications);
+            renderBrands(applications, "");
         }
-    );
+    });
 
+    /* 모두 펼치기 */
+    expandAllButton.addEventListener("click", function () {
+        document.querySelectorAll(".brand-section")
+            .forEach(function (section) {
+                section.classList.add("open");
+            });
+    });
 
-    expandAllButton.addEventListener(
-        "click",
-        function () {
+    /* 모두 접기 */
+    collapseAllButton.addEventListener("click", function () {
+        document.querySelectorAll(".brand-section")
+            .forEach(function (section) {
+                section.classList.remove("open");
+            });
 
-            document
-                .querySelectorAll(
-                    ".brand-section"
-                )
-                .forEach(
-                    function (section) {
-
-                        section.classList.add(
-                            "open"
-                        );
-
-                    }
-                );
-
-        }
-    );
-
-
-    collapseAllButton.addEventListener(
-        "click",
-        function () {
-
-            document
-                .querySelectorAll(
-                    ".brand-section"
-                )
-                .forEach(
-                    function (section) {
-
-                        section.classList.remove(
-                            "open"
-                        );
-
-                    }
-                );
-
-
-            document
-                .querySelectorAll(
-                    ".application-item"
-                )
-                .forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "open"
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+        document.querySelectorAll(".application-item")
+            .forEach(function (item) {
+                item.classList.remove("open");
+            });
+    });
 </script>
 
 </body>
