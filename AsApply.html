@@ -164,11 +164,24 @@
             background: #fff;
         }
 
-        .preview-item img {
+        .preview-item img,
+        .preview-item video {
             display: block;
             width: 100%;
             height: 130px;
             object-fit: cover;
+        }
+
+        .preview-item video {
+            background: #111;
+            object-fit: contain;
+        }
+
+        .preview-error {
+            padding: 10px;
+            color: #925700;
+            font-size: 12px;
+            line-height: 1.6;
         }
 
         .preview-name {
@@ -179,6 +192,22 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+        }
+
+        .remove-media-btn {
+            display: block;
+            width: calc(100% - 16px);
+            margin: 0 8px 8px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .remove-media-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .submit-btn,
@@ -417,22 +446,24 @@
 
         <div class="form-group photo-area">
 
-            <label for="photoInput">문제 제품 사진</label>
+            <label for="photoInput">문제 제품 사진·동영상</label>
 
             <p class="photo-description">
-                문제 부위가 잘 보이는 사진을 선택해주세요.<br>
-                최대 5장까지 선택할 수 있습니다.
+                사진과 동영상을 합쳐 최대 5개까지 선택할 수 있습니다.<br>
+                파일을 다시 선택하면 기존 목록에 추가됩니다.<br>
+                선택한 파일은 자동 전송되지 않습니다.<br>
+                접수 후 업체 채널에서 원본 파일을 직접 첨부해주세요.
             </p>
 
             <input
                 type="file"
                 id="photoInput"
-                accept="image/*"
+                accept="image/*,video/*,.mp4,.mov,.m4v,.webm"
                 multiple
             >
 
             <div class="photo-count" id="photoCount">
-                선택된 사진 없음
+                선택된 사진·동영상 없음
             </div>
 
             <div
@@ -513,6 +544,13 @@
     let copiedText = "";
     let destinationUrl = "";
     let selectedPhotos = [];
+    let selectedVideos = [];
+    let selectedMedia = [];
+    let previewUrls = [];
+    let isSubmitting = false;
+    let isSubmitted = false;
+
+    const MAX_MEDIA_COUNT = 5;
 
     /* 한국 기준 오늘 날짜 */
     function getTodayInKorea() {
@@ -640,55 +678,218 @@
             : "A/S 브랜드를 선택해주세요.";
     });
 
-    /* 사진 선택 */
+    /* 파일 종류 확인 */
+    function getMediaKind(file) {
+        if (file.type.startsWith("image/")) {
+            return "image";
+        }
+
+        if (file.type.startsWith("video/")) {
+            return "video";
+        }
+
+        if (
+            file.type &&
+            file.type !== "application/octet-stream"
+        ) {
+            return "";
+        }
+
+        const extension = file.name.split(".").pop().toLowerCase();
+
+        if (
+            [
+                "jpg", "jpeg", "png", "gif", "webp",
+                "bmp", "heic", "heif", "avif"
+            ].includes(extension)
+        ) {
+            return "image";
+        }
+
+        if (
+            [
+                "mp4", "mov", "m4v", "webm",
+                "avi", "mkv", "3gp"
+            ].includes(extension)
+        ) {
+            return "video";
+        }
+
+        return "";
+    }
+
+    /* 같은 파일을 중복 선택했는지 확인 */
+    function mediaKey(file) {
+        return JSON.stringify([
+            file.name,
+            file.size,
+            file.lastModified,
+            file.type
+        ]);
+    }
+
+    /* 사진·동영상 선택 */
     photoInput.addEventListener("change", function () {
-        const files = Array.from(photoInput.files);
+        const files = Array.from(photoInput.files || []);
 
-        if (files.length > 5) {
-            alert("사진은 최대 5장까지 선택할 수 있습니다.");
+        photoInput.value = "";
 
-            photoInput.value = "";
-            selectedPhotos = [];
-            renderPhotoPreview();
+        if (
+            isSubmitting ||
+            isSubmitted ||
+            files.length === 0
+        ) {
             return;
         }
 
-        selectedPhotos = files;
-        renderPhotoPreview();
+        if (
+            files.some(
+                file => !getMediaKind(file) || file.size === 0
+            )
+        ) {
+            alert(
+                "내용이 있는 사진 또는 동영상 파일만 선택해주세요. " +
+                "기존 선택은 유지됩니다."
+            );
+            return;
+        }
+
+        const next = [...selectedMedia];
+        const keys = new Set(next.map(mediaKey));
+
+        files.forEach(function (file) {
+            const key = mediaKey(file);
+
+            if (!keys.has(key)) {
+                keys.add(key);
+                next.push(file);
+            }
+        });
+
+        if (next.length > MAX_MEDIA_COUNT) {
+            alert(
+                "사진과 동영상은 합쳐서 최대 5개까지 선택할 수 있습니다. " +
+                "기존 선택은 유지됩니다."
+            );
+            return;
+        }
+
+        selectedMedia = next;
+
+        renderMediaPreview();
     });
 
-    /* 사진 미리보기 */
-    function renderPhotoPreview() {
+    /* 사진·동영상 미리보기 */
+    function renderMediaPreview() {
+        previewContainer.querySelectorAll("video")
+            .forEach(function (video) {
+                video.pause();
+                video.removeAttribute("src");
+                video.load();
+            });
+
         previewContainer.innerHTML = "";
 
-        if (selectedPhotos.length === 0) {
-            photoCount.textContent = "선택된 사진 없음";
-            return;
-        }
+        previewUrls.forEach(function (url) {
+            URL.revokeObjectURL(url);
+        });
 
-        photoCount.textContent =
-            "선택된 사진 : " + selectedPhotos.length + "장";
+        previewUrls = [];
 
-        selectedPhotos.forEach(function (file, index) {
+        selectedPhotos = selectedMedia.filter(
+            file => getMediaKind(file) === "image"
+        );
+
+        selectedVideos = selectedMedia.filter(
+            file => getMediaKind(file) === "video"
+        );
+
+        photoCount.textContent = selectedMedia.length
+            ? "사진 " + selectedPhotos.length +
+              "장 · 동영상 " + selectedVideos.length +
+              "개 (총 " + selectedMedia.length + "/5개)"
+            : "선택된 사진·동영상 없음";
+
+        let photoIndex = 0;
+        let videoIndex = 0;
+
+        selectedMedia.forEach(function (file, index) {
+            const isVideo = getMediaKind(file) === "video";
+            const number = isVideo ? ++videoIndex : ++photoIndex;
+
             const item = document.createElement("div");
             item.className = "preview-item";
 
-            const image = document.createElement("img");
-            const objectUrl = URL.createObjectURL(file);
+            const media = document.createElement(
+                isVideo ? "video" : "img"
+            );
 
-            image.src = objectUrl;
+            const url = URL.createObjectURL(file);
+            previewUrls.push(url);
 
-            image.onload = function () {
-                URL.revokeObjectURL(objectUrl);
-            };
+            if (isVideo) {
+                media.controls = true;
+                media.preload = "metadata";
+                media.playsInline = true;
+            } else {
+                media.alt = "선택한 사진 " + number;
+            }
+
+            const errorText = document.createElement("p");
+            errorText.className = "preview-error";
+            errorText.hidden = true;
+
+            media.addEventListener("error", function () {
+                media.hidden = true;
+                media.style.display = "none";
+
+                errorText.hidden = false;
+                errorText.textContent =
+                    "이 파일은 브라우저에서 미리볼 수 없습니다. " +
+                    "선택은 유지되며, 업체 채널에서 원본 파일을 직접 첨부해주세요.";
+            });
+
+            media.src = url;
 
             const name = document.createElement("div");
             name.className = "preview-name";
-            name.textContent = (index + 1) + ". " + file.name;
+            name.textContent =
+                (isVideo ? "동영상 " : "사진 ") +
+                number + " · " + file.name;
+            name.title = file.name;
 
-            item.appendChild(image);
-            item.appendChild(name);
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.className = "remove-media-btn";
+            removeButton.textContent = "선택 취소";
+            removeButton.disabled = isSubmitting || isSubmitted;
+
+            removeButton.addEventListener("click", function () {
+                if (isSubmitting || isSubmitted) {
+                    return;
+                }
+
+                selectedMedia.splice(index, 1);
+                renderMediaPreview();
+            });
+
+            item.append(
+                media,
+                errorText,
+                name,
+                removeButton
+            );
+
             previewContainer.appendChild(item);
+        });
+    }
+
+    /* 저장 중 입력과 파일 변경 방지 */
+    function setFormLocked(locked) {
+        asForm.querySelectorAll(
+            "input, select, textarea, button"
+        ).forEach(function (element) {
+            element.disabled = locked;
         });
     }
 
@@ -776,7 +977,7 @@
         }
     }
 
-    /* 이미지 클립보드 복사 */
+    /* 사진 클립보드 복사 */
     async function copyPhotoToClipboard(file) {
         if (!navigator.clipboard || !window.ClipboardItem) {
             throw new Error(
@@ -793,7 +994,7 @@
         await navigator.clipboard.write([clipboardItem]);
     }
 
-    /* 사진별 복사 버튼 */
+    /* 사진에만 복사 버튼 표시 */
     function createPhotoCopyButtons() {
         photoButtons.innerHTML = "";
 
@@ -886,6 +1087,10 @@
     asForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
+        if (isSubmitting || isSubmitted) {
+            return;
+        }
+
         const selectedBrandValue = brandSelect.value;
 
         if (
@@ -924,11 +1129,11 @@
 
         if (
             photoCopyBrands.includes(selectedBrandValue) &&
-            selectedPhotos.length === 0
+            selectedMedia.length === 0
         ) {
             alert(
                 selectedBrandValue +
-                " A/S 접수는 문제 제품 사진을 1장 이상 선택해주세요."
+                " A/S 접수는 문제 제품 사진 또는 동영상을 1개 이상 선택해주세요."
             );
             return;
         }
@@ -960,6 +1165,7 @@
             address: address,
             content: content,
             photoCount: selectedPhotos.length,
+            videoCount: selectedVideos.length,
             status: "접수 완료",
             createdAt: serverTimestamp()
         };
@@ -977,15 +1183,15 @@
 A/S 내용: ${content}
 
 첨부 예정 사진: ${selectedPhotos.length}장
-
-📷 아래에 문제 제품 사진을 함께 첨부합니다.`;
+첨부 예정 동영상: ${selectedVideos.length}개`;
 
         destinationUrl = brandLinks[selectedBrandValue];
 
-        try {
-            submitButton.disabled = true;
-            submitButton.textContent = "접수 중...";
+        isSubmitting = true;
+        setFormLocked(true);
+        submitButton.textContent = "접수 중...";
 
+        try {
             const batch = writeBatch(db);
 
             const privateRef = doc(
@@ -1009,155 +1215,103 @@ A/S 내용: ${content}
             });
 
             await batch.commit();
-
-            const copySuccess = await copyToClipboard(copiedText);
-
-            asForm.querySelectorAll(
-                "input:not([type='file']), select, textarea"
-            ).forEach(function (element) {
-                element.disabled = true;
-            });
-
-            photoInput.disabled = true;
-            submitButton.disabled = true;
-            submitButton.textContent = "✓ 접수 완료";
-
-            resultBox.style.display = "block";
-
-            if (photoCopyBrands.includes(selectedBrandValue)) {
-                resultBox.innerHTML = `
-                    <strong>
-                        A/S 접수가 완료되었습니다.
-                    </strong>
-
-                    <br><br>
-
-                    접수번호<br>
-
-                    <span class="receipt-number">
-                        ${receiptNumber}
-                    </span>
-
-                    <br><br>
-
-                    ${
-                        copySuccess
-                        ? "✓ 신청 내용이 자동으로 복사되었습니다."
-                        : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
-                    }
-
-                    <div class="paste-guide">
-                        <strong>
-                            ${selectedBrandValue} 오픈카카오톡 전송 방법
-                        </strong>
-
-                        <br><br>
-
-                        ① 아래
-                        <strong>
-                            ${selectedBrandValue} 오픈카카오톡 열기
-                        </strong>
-                        버튼을 누릅니다.
-
-                        <br><br>
-
-                        ② 카카오톡 메시지 입력창에서
-                        <strong>Ctrl + V</strong>
-                        를 눌러 신청내용을 붙여넣습니다.
-
-                        <br><br>
-
-                        ③ 다시 이 화면으로 돌아와
-                        <strong>사진 1 복사하기</strong>
-                        를 누릅니다.
-
-                        <br><br>
-
-                        ④ 카카오톡으로 돌아가
-                        <strong>Ctrl + V</strong>
-                        를 누르면 사진이 붙여넣어집니다.
-
-                        <br><br>
-
-                        ⑤ 사진이 여러 장이면
-                        사진 2, 사진 3 순서로 반복합니다.
-
-                        <br><br>
-
-                        ⑥ 내용과 사진을 확인한 뒤 전송합니다.
-                    </div>
-
-                    <div class="photo-notice">
-                        📷 선택된 사진 :
-                        <strong>
-                            ${selectedPhotos.length}장
-                        </strong>
-
-                        <br>
-
-                        아래에 사진별 복사 버튼이 표시됩니다.
-                    </div>
-                `;
-            } else {
-                resultBox.innerHTML = `
-                    <strong>
-                        A/S 접수가 완료되었습니다.
-                    </strong>
-
-                    <br><br>
-
-                    접수번호<br>
-
-                    <span class="receipt-number">
-                        ${receiptNumber}
-                    </span>
-
-                    <br><br>
-
-                    ${
-                        copySuccess
-                        ? "✓ 신청 내용이 자동으로 복사되었습니다."
-                        : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
-                    }
-
-                    <div class="paste-guide">
-                        해당 업체 A/S 페이지 또는
-                        카카오톡 채널이 열리면
-
-                        <br>
-
-                        복사된 신청 내용을 붙여넣고
-                        필요한 경우 제품 사진을 첨부해주세요.
-                    </div>
-                `;
-            }
-
-            copyButton.style.display = "block";
-
-            createPhotoCopyButtons();
-
-            moveButton.style.display = "block";
-
-            moveButton.textContent =
-                photoCopyBrands.includes(selectedBrandValue)
-                ? selectedBrandValue + " 오픈카카오톡 열기"
-                : selectedBrandValue + " A/S 접수 페이지 열기";
-
-            resultBox.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
         } catch (error) {
             console.error("A/S 접수 오류:", error);
 
-            alert(
-                "A/S 접수 중 오류가 발생했습니다.\n" +
-                "잠시 후 다시 시도해주세요."
-            );
-
-            submitButton.disabled = false;
+            isSubmitting = false;
+            setFormLocked(false);
             submitButton.textContent = "A/S 접수하기";
+
+            alert(
+                "A/S 접수를 저장하지 못했습니다. 잠시 후 다시 시도해주세요."
+            );
+            return;
         }
+
+        isSubmitted = true;
+        isSubmitting = false;
+        submitButton.textContent = "✓ 접수 완료";
+
+        const copySuccess = await copyToClipboard(copiedText);
+        const isOpenChat = photoCopyBrands.includes(selectedBrandValue);
+
+        resultBox.style.display = "block";
+
+        resultBox.innerHTML = `
+            <strong>DNB A/S 신청 기록이 저장되었습니다.</strong>
+
+            <br><br>
+
+            접수번호<br>
+
+            <span class="receipt-number">
+                ${receiptNumber}
+            </span>
+
+            <br><br>
+
+            ${
+                copySuccess
+                ? "✓ 신청 내용이 자동으로 복사되었습니다."
+                : "신청내용 자동복사가 차단되었습니다. 아래 복사 버튼을 눌러주세요."
+            }
+
+            <div class="paste-guide">
+                <strong>업체에 전달하는 방법</strong>
+
+                <br><br>
+
+                ① 아래 업체 채널 열기 버튼을 누릅니다.
+
+                <br><br>
+
+                ② 복사한 신청내용을 붙여넣습니다.<br>
+                PC는 Ctrl + V, 휴대폰은 입력창을 길게 눌러
+                붙여넣기를 선택합니다.
+
+                <br><br>
+
+                ③ 사진과 동영상 원본을 업체 채널에서 직접 첨부합니다.<br>
+
+                ${
+                    isOpenChat && selectedPhotos.length > 0
+                    ? "사진은 아래 ‘사진 복사하기’ 버튼도 사용할 수 있습니다.<br>"
+                    : ""
+                }
+
+                동영상은 카카오톡의 + 또는 파일 첨부 메뉴에서 선택해주세요.
+                업체 홈페이지를 이용하는 경우 해당 페이지의 첨부 안내를 따라주세요.
+
+                <br><br>
+
+                ④ 내용과 파일을 확인한 뒤 전송합니다.
+            </div>
+
+            <div class="photo-notice">
+                선택한 사진 <strong>${selectedPhotos.length}장</strong> ·
+                동영상 <strong>${selectedVideos.length}개</strong>
+
+                <br>
+
+                사진·동영상 원본은 이 사이트에 저장되거나
+                업체에 자동 전송되지 않습니다.
+            </div>
+        `;
+
+        copyButton.style.display = "block";
+
+        createPhotoCopyButtons();
+
+        moveButton.style.display = "block";
+
+        moveButton.textContent = isOpenChat
+            ? selectedBrandValue + " 오픈카카오톡 열기"
+            : selectedBrandValue + " A/S 접수 페이지 열기";
+
+        resultBox.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     });
 </script>
 
